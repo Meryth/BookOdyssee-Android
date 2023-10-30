@@ -5,11 +5,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navigation
 import com.tailoredapps.bookodyssee.navigation.destinations.ROUTE_MAIN
-import com.tailoredapps.bookodyssee.navigation.destinations.ROUTE_OVERVIEW
+import com.tailoredapps.bookodyssee.navigation.destinations.ROUTE_WELCOME
 import com.tailoredapps.bookodyssee.navigation.destinations.detailScreen
+import com.tailoredapps.bookodyssee.navigation.destinations.homeScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.mainScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToDetail
-import com.tailoredapps.bookodyssee.navigation.destinations.overviewScreen
+import com.tailoredapps.bookodyssee.navigation.destinations.welcomeScreen
 
 enum class NavHosts(val route: String) {
     App("nav_host_app"),
@@ -20,7 +21,7 @@ enum class NavGraphs(
     val route: String
 ) {
     Main("nav_main"),
-    Overview("nav_overview"),
+    Welcome("nav_welcome"),
 }
 
 /**
@@ -49,10 +50,11 @@ fun NavHostController.MainNavHost() {
     NavHost(
         navController = this,
         route = NavHosts.Main.route,
-        startDestination = NavGraphs.Overview.route
+        startDestination = NavGraphs.Welcome.route
     ) {
-        navigation(startDestination = ROUTE_OVERVIEW, route = NavGraphs.Overview.route) {
-            overviewScreen(
+        navigation(startDestination = ROUTE_WELCOME, route = NavGraphs.Welcome.route) {
+            welcomeScreen()
+            homeScreen(
                 onListElementClicked = this@MainNavHost::navigateToDetail
             )
 

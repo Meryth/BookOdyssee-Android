@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="screen_overview">Overview</string>
+    <string name="screen_home">Home</string>
     <string name="screen_detail">Detail</string>
     <string name="app_name">BookOdyssee</string>
+    <string name="welcome_title">Welcome to\nBookOdysee!</string>
+    <string name="welcome_subtitle">Your pocket library to go</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Register</string>
 </resources>

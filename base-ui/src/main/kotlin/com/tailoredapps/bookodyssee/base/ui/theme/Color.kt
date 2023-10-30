@@ -2,11 +2,11 @@ package com.tailoredapps.bookodyssee.base.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val md_theme_light_primary = Color(0xFF006686)
+val md_theme_light_primary = Color(0xFFB99976)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFC0E8FF)
 val md_theme_light_onPrimaryContainer = Color(0xFF001E2B)
-val md_theme_light_secondary = Color(0xFF4D616C)
+val md_theme_light_secondary = Color(0xFF9276B9)
 val md_theme_light_onSecondary = Color(0xFFFFFFFF)
 val md_theme_light_secondaryContainer = Color(0xFFD0E6F3)
 val md_theme_light_onSecondaryContainer = Color(0xFF091E27)
@@ -23,7 +23,7 @@ val md_theme_light_onBackground = Color(0xFF191C1E)
 val md_theme_light_surface = Color(0xFFFBFCFE)
 val md_theme_light_onSurface = Color(0xFF191C1E)
 val md_theme_light_surfaceVariant = Color(0xFFFFFFFF)
-val md_theme_light_onSurfaceVariant = Color(0xFF40484C)
+val md_theme_light_onSurfaceVariant = Color(0xFF987554)
 val md_theme_light_outline = Color(0xFF71787D)
 val md_theme_light_inverseOnSurface = Color(0xFFF0F1F3)
 val md_theme_light_inverseSurface = Color(0xFF2E3133)

@@ -5,13 +5,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.tailoredapps.bookodyssee.ui.home.HomeScreen
 
-internal const val ROUTE_OVERVIEW: String = "overview"
+internal const val ROUTE_HOME: String = "home"
 
-internal fun NavGraphBuilder.overviewScreen(onListElementClicked: (Int) -> Unit) {
-    composable(ROUTE_OVERVIEW) {
+internal fun NavGraphBuilder.homeScreen(onListElementClicked: (Int) -> Unit) {
+    composable(ROUTE_HOME) {
         HomeScreen(onListElementClicked = onListElementClicked)
     }
 }
 
-internal fun NavController.navigateToOverview() =
-    this.navigate(ROUTE_OVERVIEW)
+internal fun NavController.navigateToHome() =
+    this.navigate(ROUTE_HOME)

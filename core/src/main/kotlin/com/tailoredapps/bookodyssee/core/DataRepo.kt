@@ -20,6 +20,8 @@ package com.tailoredapps.bookodyssee.core
 import com.tailoredapps.bookodyssee.core.local.Database
 import com.tailoredapps.bookodyssee.core.remote.MyApi
 
+//TODO: put API key somewhere else
+//API KEY: AIzaSyB2ERlxklfmkTeQKKpg-p1h90X3nRB7Ghw
 interface DataRepo
 
 class CoreDataRepo(private val api: MyApi, private val database: Database) : DataRepo

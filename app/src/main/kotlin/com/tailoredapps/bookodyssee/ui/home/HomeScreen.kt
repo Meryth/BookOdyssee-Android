@@ -24,14 +24,14 @@ fun HomeScreen(
 ) {
     val viewModelState by viewModel.state.collectAsState()
 
-    OverviewView(
+    HomeView(
         title = stringResource(id = R.string.app_name),
         onListElementClicked = onListElementClicked
     )
 }
 
 @Composable
-private fun OverviewView(
+private fun HomeView(
     title: String,
     onListElementClicked: (id: Int) -> Unit
 ) {
@@ -54,9 +54,9 @@ private fun OverviewView(
 
 @Preview
 @Composable
-private fun OverviewPreview() {
+private fun HomePreview() {
     AppTheme {
-        OverviewView(
+        HomeView(
             title = stringResource(id = R.string.app_name),
             onListElementClicked = {}
         )

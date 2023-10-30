@@ -36,7 +36,7 @@ fun AppTopBar(
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    color: Color = AppTheme.colors.surface
+    color: Color = AppTheme.colors.primary
 ) = when (size) {
     AppTopBarSize.Small -> AppTopBarSmall(
         title = title,
@@ -44,6 +44,7 @@ fun AppTopBar(
         actions = actions,
         scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.topAppBarColors(
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
             containerColor = color,
             scrolledContainerColor = MaterialTheme.colorScheme.applyTonalElevation(
                 backgroundColor = color,
