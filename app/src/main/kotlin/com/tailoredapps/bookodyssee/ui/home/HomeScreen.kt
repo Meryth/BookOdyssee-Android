@@ -1,4 +1,4 @@
-package com.tailoredapps.bookodyssee.ui.overview
+package com.tailoredapps.bookodyssee.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,8 +18,8 @@ import com.tailoredapps.bookodyssee.base.ui.theme.AppTheme
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun OverviewScreen(
-    viewModel: OverviewViewModel = getViewModel(),
+fun HomeScreen(
+    viewModel: HomeViewModel = getViewModel(),
     onListElementClicked: (id: Int) -> Unit
 ) {
     val viewModelState by viewModel.state.collectAsState()

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.bookodyssee.ui.overview
+package com.tailoredapps.bookodyssee.ui.home
 
 import androidx.lifecycle.viewModelScope
 import at.florianschuster.control.Controller
@@ -23,9 +23,9 @@ import at.florianschuster.control.createController
 import com.tailoredapps.bookodyssee.base.control.ControllerViewModel
 import com.tailoredapps.bookodyssee.core.DataRepo
 
-class OverviewViewModel(
+class HomeViewModel(
     private val dataRepo: DataRepo
-) : ControllerViewModel<OverviewViewModel.Action, OverviewViewModel.State>() {
+) : ControllerViewModel<HomeViewModel.Action, HomeViewModel.State>() {
 
     sealed class Action
 

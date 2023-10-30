@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package com.tailoredapps.bookodyssee.ui.overview
+package com.tailoredapps.bookodyssee.ui.home
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-internal val overviewModule = module {
-    viewModel { OverviewViewModel(dataRepo = get()) }
+internal val homeModule = module {
+    viewModel { HomeViewModel(dataRepo = get()) }
 }

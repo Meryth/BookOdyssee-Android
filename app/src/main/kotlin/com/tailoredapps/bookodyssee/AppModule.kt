@@ -20,7 +20,7 @@ package com.tailoredapps.bookodyssee
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import com.tailoredapps.bookodyssee.core.model.AppBuildInfo
-import com.tailoredapps.bookodyssee.ui.overview.overviewModule
+import com.tailoredapps.bookodyssee.ui.home.homeModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -37,4 +37,4 @@ private fun provideAppBuildInfo(context: Context): AppBuildInfo = AppBuildInfo(
     baseUrl = BuildConfig.BASE_URL
 )
 
-internal val appModules = listOf(appModule, overviewModule)
+internal val appModules = listOf(appModule, homeModule)

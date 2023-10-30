@@ -2,4 +2,5 @@
 <resources>
     <string name="screen_overview">Overview</string>
     <string name="screen_detail">Detail</string>
+    <string name="app_name">BookOdyssee</string>
 </resources>
