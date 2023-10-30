@@ -10,6 +10,8 @@ import com.tailoredapps.bookodyssee.navigation.destinations.detailScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.homeScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.mainScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToDetail
+import com.tailoredapps.bookodyssee.navigation.destinations.navigateToRegistration
+import com.tailoredapps.bookodyssee.navigation.destinations.registrationScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.welcomeScreen
 
 enum class NavHosts(val route: String) {
@@ -53,12 +55,15 @@ fun NavHostController.MainNavHost() {
         startDestination = NavGraphs.Welcome.route
     ) {
         navigation(startDestination = ROUTE_WELCOME, route = NavGraphs.Welcome.route) {
-            welcomeScreen()
+            welcomeScreen(
+                onLoginClick = this@MainNavHost::navigateToRegistration,
+                onRegisterClick = this@MainNavHost::navigateToRegistration
+            )
             homeScreen(
                 onListElementClicked = this@MainNavHost::navigateToDetail
             )
-
             detailScreen()
+            registrationScreen()
         }
     }
 }

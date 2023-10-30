@@ -21,12 +21,20 @@ import com.tailoredapps.bookodyssee.base.ui.scaffold.AppScaffold
 import com.tailoredapps.bookodyssee.base.ui.theme.AppTheme
 
 @Composable
-fun WelcomeScreen() {
-    WelcomeView()
+fun WelcomeScreen(
+    onLoginClick: () -> Unit,
+    onRegisterClick : () -> Unit,
+) {
+    WelcomeView(
+        onLoginClick = onLoginClick,
+        onRegisterClick = onRegisterClick
+    )
 }
 
 @Composable
 fun WelcomeView(
+    onLoginClick: () -> Unit,
+    onRegisterClick: () -> Unit,
 ) {
     AppScaffold { paddingValues ->
         Column(
@@ -64,8 +72,8 @@ fun WelcomeView(
                     .fillMaxWidth()
                     .padding(top = AppTheme.dimens.dimen48),
                 shape = AppTheme.shapes.extraSmall,
-                onClick = { /*TODO*/ }) {
-
+                onClick = onLoginClick
+            ) {
                 Text(
                     text = stringResource(R.string.btn_login),
                     modifier = Modifier.padding(vertical = AppTheme.dimens.dimen4)
@@ -81,7 +89,8 @@ fun WelcomeView(
                     .fillMaxWidth()
                     .padding(top = AppTheme.dimens.dimen24),
                 shape = AppTheme.shapes.extraSmall,
-                onClick = { /*TODO*/ }) {
+                onClick = onRegisterClick
+            ) {
                 Text(
                     text = stringResource(R.string.btn_register),
                     modifier = Modifier.padding(vertical = AppTheme.dimens.dimen4)
@@ -94,5 +103,8 @@ fun WelcomeView(
 @Preview(showBackground = true)
 @Composable
 private fun WelcomePreview() {
-    WelcomeView()
+    WelcomeView(
+        onLoginClick = {},
+        onRegisterClick = {}
+    )
 }

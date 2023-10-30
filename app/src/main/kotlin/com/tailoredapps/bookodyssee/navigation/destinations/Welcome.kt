@@ -7,9 +7,12 @@ import com.tailoredapps.bookodyssee.ui.welcome.WelcomeScreen
 
 internal const val ROUTE_WELCOME: String = "welcome"
 
-internal fun NavGraphBuilder.welcomeScreen() {
+internal fun NavGraphBuilder.welcomeScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
     composable(ROUTE_WELCOME) {
-        WelcomeScreen()
+        WelcomeScreen(
+            onLoginClick = onLoginClick,
+            onRegisterClick = onRegisterClick
+        )
     }
 }
 
