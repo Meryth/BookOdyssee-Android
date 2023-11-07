@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,13 +15,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.tailoredapps.bookodyssee.R
+import com.tailoredapps.bookodyssee.base.ui.button.PrimaryButton
 import com.tailoredapps.bookodyssee.base.ui.scaffold.AppScaffold
 import com.tailoredapps.bookodyssee.base.ui.theme.AppTheme
 
 @Composable
 fun WelcomeScreen(
     onLoginClick: () -> Unit,
-    onRegisterClick : () -> Unit,
+    onRegisterClick: () -> Unit,
 ) {
     WelcomeView(
         onLoginClick = onLoginClick,
@@ -63,39 +62,23 @@ fun WelcomeView(
                 color = AppTheme.colors.onSurfaceVariant
             )
 
-            Button(
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppTheme.colors.primary,
-                    contentColor = AppTheme.colors.onPrimary
-                ),
+            PrimaryButton(
+                btnText = stringResource(R.string.btn_login),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = AppTheme.dimens.dimen48),
                 shape = AppTheme.shapes.extraSmall,
                 onClick = onLoginClick
-            ) {
-                Text(
-                    text = stringResource(R.string.btn_login),
-                    modifier = Modifier.padding(vertical = AppTheme.dimens.dimen4)
-                )
-            }
+            )
 
-            Button(
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppTheme.colors.primary,
-                    contentColor = AppTheme.colors.onPrimary
-                ),
+            PrimaryButton(
+                btnText = stringResource(id = R.string.btn_register),
+                onClick = onRegisterClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = AppTheme.dimens.dimen24),
-                shape = AppTheme.shapes.extraSmall,
-                onClick = onRegisterClick
-            ) {
-                Text(
-                    text = stringResource(R.string.btn_register),
-                    modifier = Modifier.padding(vertical = AppTheme.dimens.dimen4)
-                )
-            }
+                shape = AppTheme.shapes.extraSmall
+            )
         }
     }
 }
