@@ -36,7 +36,9 @@ fun RegistrationScreen(
                 RegistrationViewModel.Action.ChangeConfirmPassword(it)
             )
         },
-        onRegisterClick = {}
+        onRegisterClick = {
+            viewModel.dispatch(RegistrationViewModel.Action.OnRegisterClick)
+        }
     )
 }
 

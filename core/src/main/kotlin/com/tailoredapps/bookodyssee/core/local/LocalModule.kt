@@ -17,8 +17,15 @@
 
 package com.tailoredapps.bookodyssee.core.local
 
+import android.content.Context
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 internal val localModule = module {
-    single<Database> { DatabaseImpl() }
+    single { provideDataBase<DatabaseImpl>(androidContext(), DatabaseImpl.NAME) }
 }
+
+private inline fun <reified T : RoomDatabase> provideDataBase(context: Context, name: String) =
+    Room.databaseBuilder(context, T::class.java, name).build()

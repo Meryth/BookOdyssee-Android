@@ -11,9 +11,13 @@ dependencies {
     api(Libs.kotlinx_coroutines_core)
     api(Libs.threetenabp)
     api(Libs.timber)
+    api(Libs.room_ktx)
+    api(Libs.koin_android)
 
     implementation(Libs.converter_gson)
     implementation(Libs.logging_interceptor)
     implementation(Libs.okhttp)
     implementation(Libs.retrofit)
+    kapt(Libs.room_compiler)
+    implementation(Libs.room_runtime)
 }
