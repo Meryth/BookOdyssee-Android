@@ -24,6 +24,7 @@ class RegistrationViewModel(
         data class SetUsername(val username: String) : Mutation()
         data class SetPassword(val password: String) : Mutation()
         data class SetConfirmPassword(val confirmPassword: String) : Mutation()
+        data class ShowErrorMessage(val isError: Boolean) : Mutation()
     }
 
     data class State(
@@ -35,7 +36,6 @@ class RegistrationViewModel(
 
     sealed class Effect {
         data object IsSuccess : Effect()
-        data object IsError : Effect()
     }
 
     override val controller: EffectController<Action, State, Effect> =
@@ -50,12 +50,19 @@ class RegistrationViewModel(
                     is Action.ChangePassword -> flowOf(Mutation.SetPassword(action.password))
                     is Action.ChangeConfirmPassword -> flowOf(Mutation.SetConfirmPassword(action.repeatPassword))
                     is Action.OnRegisterClick -> flow {
-                        dataRepo.insertUser(
-                            user = User(
-                                username = currentState.username,
-                                password = currentState.password
+                        val passwordMatch = currentState.password == currentState.confirmPassword
+                        if (currentState.username.isEmpty() || currentState.password.isEmpty() || !passwordMatch) {
+                            emit(Mutation.ShowErrorMessage(isError = true))
+                        } else {
+                            emit(Mutation.ShowErrorMessage(isError = false))
+                            dataRepo.insertUser(
+                                user = User(
+                                    username = currentState.username,
+                                    password = currentState.password
+                                )
                             )
-                        )
+                            emitEffect(Effect.IsSuccess)
+                        }
                     }
                 }
             },
@@ -64,6 +71,7 @@ class RegistrationViewModel(
                     is Mutation.SetUsername -> previousState.copy(username = mutation.username)
                     is Mutation.SetPassword -> previousState.copy(password = mutation.password)
                     is Mutation.SetConfirmPassword -> previousState.copy(confirmPassword = mutation.confirmPassword)
+                    is Mutation.ShowErrorMessage -> previousState.copy(isError = mutation.isError)
                 }
             }
         )

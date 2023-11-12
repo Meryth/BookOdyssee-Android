@@ -10,6 +10,7 @@ import com.tailoredapps.bookodyssee.navigation.destinations.detailScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.homeScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.mainScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToDetail
+import com.tailoredapps.bookodyssee.navigation.destinations.navigateToHome
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToRegistration
 import com.tailoredapps.bookodyssee.navigation.destinations.registrationScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.welcomeScreen
@@ -63,7 +64,7 @@ fun NavHostController.MainNavHost() {
                 onListElementClicked = this@MainNavHost::navigateToDetail
             )
             detailScreen()
-            registrationScreen()
+            registrationScreen(onRegistrationSuccess = this@MainNavHost::navigateToHome)
         }
     }
 }

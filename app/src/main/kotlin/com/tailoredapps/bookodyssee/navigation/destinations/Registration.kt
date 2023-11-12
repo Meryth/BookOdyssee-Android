@@ -7,9 +7,9 @@ import com.tailoredapps.bookodyssee.ui.registration.RegistrationScreen
 
 internal const val ROUTE_REGISTRATION: String = "registration"
 
-internal fun NavGraphBuilder.registrationScreen() {
+internal fun NavGraphBuilder.registrationScreen(onRegistrationSuccess: () -> Unit) {
     composable(ROUTE_REGISTRATION) {
-        RegistrationScreen()
+        RegistrationScreen(onRegistrationSuccess)
     }
 }
 
