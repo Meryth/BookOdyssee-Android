@@ -8,9 +8,11 @@ import com.tailoredapps.bookodyssee.navigation.destinations.ROUTE_MAIN
 import com.tailoredapps.bookodyssee.navigation.destinations.ROUTE_WELCOME
 import com.tailoredapps.bookodyssee.navigation.destinations.detailScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.homeScreen
+import com.tailoredapps.bookodyssee.navigation.destinations.loginScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.mainScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToDetail
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToHome
+import com.tailoredapps.bookodyssee.navigation.destinations.navigateToLogin
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToRegistration
 import com.tailoredapps.bookodyssee.navigation.destinations.registrationScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.welcomeScreen
@@ -57,7 +59,7 @@ fun NavHostController.MainNavHost() {
     ) {
         navigation(startDestination = ROUTE_WELCOME, route = NavGraphs.Welcome.route) {
             welcomeScreen(
-                onLoginClick = this@MainNavHost::navigateToRegistration,
+                onLoginClick = this@MainNavHost::navigateToLogin,
                 onRegisterClick = this@MainNavHost::navigateToRegistration
             )
             homeScreen(
@@ -65,6 +67,7 @@ fun NavHostController.MainNavHost() {
             )
             detailScreen()
             registrationScreen(onRegistrationSuccess = this@MainNavHost::navigateToHome)
+            loginScreen(onLoginSuccess = this@MainNavHost::navigateToHome)
         }
     }
 }
