@@ -28,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 internal val remoteModule = module {
     factory { HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY } }
     single { provideOkHttpClient(loggingInterceptor = get(), appBuildInfo = get()) }
-    single { provideApi<MyApi>(okHttpClient = get(), gson = get(), appBuildInfo = get()) }
+    single { provideApi<BooksApi>(okHttpClient = get(), gson = get(), appBuildInfo = get()) }
 }
 
 private fun provideOkHttpClient(

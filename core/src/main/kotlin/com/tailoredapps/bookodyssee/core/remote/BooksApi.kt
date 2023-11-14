@@ -17,4 +17,15 @@
 
 package com.tailoredapps.bookodyssee.core.remote
 
-interface MyApi
+import com.tailoredapps.bookodyssee.core.model.BookList
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Query
+
+interface BooksApi {
+    @GET("/books/v1/volumes?")
+    suspend fun findBookBySearchTerm(
+        @Header("X-goog-api-key") apiKey: String,
+        @Query("q") searchTerm: String
+    ): Result<BookList>
+}

@@ -6,6 +6,7 @@ import at.florianschuster.control.createEffectController
 import com.tailoredapps.bookodyssee.base.control.EffectControllerViewModel
 import com.tailoredapps.bookodyssee.core.DataRepo
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 
 class LoginViewModel(
     dataRepo: DataRepo

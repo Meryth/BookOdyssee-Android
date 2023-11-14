@@ -52,12 +52,12 @@ android {
             applicationIdSuffix ".dev"
             resValue "string", "app_name", Config.appName + " Dev"
             resValue "string", "leak_canary_display_activity_label", Config.appName + " Leaks"
-            buildConfigField "String", "BASE_URL", "\"https://www.googleapis.com/books/v1/\""
+            buildConfigField "String", "BASE_URL", "\"https://www.googleapis.com/\""
             dimension "backend"
         }
         prod {
             resValue "string", "app_name", Config.appName
-            buildConfigField "String", "BASE_URL", "\"https://www.googleapis.com/books/v1/\""
+            buildConfigField "String", "BASE_URL", "\"https://www.googleapis.com/\""
             dimension "backend"
         }
     }
