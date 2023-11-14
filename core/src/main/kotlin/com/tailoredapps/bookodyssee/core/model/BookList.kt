@@ -2,7 +2,6 @@ package com.tailoredapps.bookodyssee.core.model
 
 data class BookList(
     val items: List<BookItem>,
-    val totalItems: Int
 )
 
 data class BookItem(
