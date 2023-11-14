@@ -33,7 +33,7 @@ fun LoginScreen(
     LoginView(
         username = state.value.username,
         password = state.value.password,
-        isError = false,
+        isError = state.value.isError,
         onUsernameChange = { viewModel.dispatch(LoginViewModel.Action.ChangeUsername(it)) },
         onPasswordChange = { viewModel.dispatch(LoginViewModel.Action.ChangePassword(it)) },
         onLoginClick = { viewModel.dispatch(LoginViewModel.Action.OnLoginClick) }
@@ -62,10 +62,7 @@ fun LoginView(
     ) { contentPadding ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(
-                AppTheme.dimens.dimen48,
-                Alignment.CenterVertically
-            ),
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = contentPadding.calculateTopPadding())
@@ -77,24 +74,29 @@ fun LoginView(
                 singleLine = true,
                 onValueChange = { onUsernameChange(it) }
             )
-            DefaultTextField(
-                value = password,
-                label = stringResource(R.string.lb_password),
-                singleLine = true,
-                visualTransformation = PasswordVisualTransformation(),
-                onValueChange = { onPasswordChange(it) }
-            )
-
-            if (isError) {
-                Text(
-                    text = stringResource(R.string.registration_error),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error
+            Column(
+                modifier = Modifier.padding(vertical = AppTheme.dimens.dimen48)
+            ) {
+                DefaultTextField(
+                    value = password,
+                    label = stringResource(R.string.lb_password),
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    onValueChange = { onPasswordChange(it) }
                 )
+
+                if (isError) {
+                    Text(
+                        text = stringResource(R.string.error_login),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.padding(top = AppTheme.dimens.dimen12)
+                    )
+                }
             }
 
             PrimaryButton(
-                btnText = stringResource(id = R.string.btn_register),
+                btnText = stringResource(id = R.string.btn_login),
                 onClick = onLoginClick
             )
         }

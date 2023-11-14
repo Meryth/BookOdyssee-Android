@@ -20,12 +20,13 @@ package com.tailoredapps.bookodyssee.core
 import com.tailoredapps.bookodyssee.core.local.DatabaseImpl
 import com.tailoredapps.bookodyssee.core.model.User
 import com.tailoredapps.bookodyssee.core.remote.MyApi
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 //TODO: put API key somewhere else
 //API KEY: AIzaSyB2ERlxklfmkTeQKKpg-p1h90X3nRB7Ghw
 interface DataRepo {
-    fun getUser(username: String): Flow<User>
+    suspend fun getUser(username: String): User
     suspend fun insertUser(user: User)
     suspend fun updateUser(user: User)
 }
@@ -34,12 +35,18 @@ class CoreDataRepo(
     private val api: MyApi,
     private val database: DatabaseImpl
 ) : DataRepo {
-    override fun getUser(username: String): Flow<User> =
-        database.userDao().getUser(username)
+    override suspend fun getUser(username: String): User =
+        withContext(Dispatchers.IO) {
+            database.userDao().getUser(username)
+        }
 
     override suspend fun insertUser(user: User) =
-        database.userDao().insertUser(user)
+        withContext(Dispatchers.IO) {
+            database.userDao().insertUser(user)
+        }
 
     override suspend fun updateUser(user: User) =
-        database.userDao().updateUser(user)
+        withContext(Dispatchers.IO) {
+            database.userDao().updateUser(user)
+        }
 }

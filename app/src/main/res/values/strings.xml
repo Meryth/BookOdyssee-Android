@@ -11,4 +11,5 @@
     <string name="lb_password">Password</string>
     <string name="lb_password_confirm">Password Confirm</string>
     <string name="registration_error">Looks like something went wrong. Be sure your password is matching and do not leave a field empty!</string>
+    <string name="error_login">Wrong username or password!</string>
 </resources>

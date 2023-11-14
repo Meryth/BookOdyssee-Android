@@ -6,8 +6,6 @@ import at.florianschuster.control.createEffectController
 import com.tailoredapps.bookodyssee.base.control.EffectControllerViewModel
 import com.tailoredapps.bookodyssee.core.DataRepo
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.mapLatest
-import timber.log.Timber
 
 class LoginViewModel(
     dataRepo: DataRepo
@@ -50,17 +48,14 @@ class LoginViewModel(
 
                     is Action.OnLoginClick -> flow {
                         emit(Mutation.ShowErrorMessage(false))
-                        dataRepo.getUser(currentState.username)
-                            .mapLatest {
-                                Timber.d("aaa user $it")
-                                if (currentState.password == it.password) {
-                                    Timber.d("aaa success!")
-                                    emitEffect(Effect.IsSuccess)
-                                } else {
-                                    Timber.d("aaa error :P")
-                                    emit(Mutation.ShowErrorMessage(true))
-                                }
-                            }
+                        val passwordDb = dataRepo.getUser(currentState.username).password
+
+                        if (passwordDb == currentState.password) {
+                            emitEffect(Effect.IsSuccess)
+                        } else {
+                            emit(Mutation.ShowErrorMessage(true))
+                        }
+
                     }
                 }
             },
