@@ -23,6 +23,7 @@ import com.tailoredapps.bookodyssee.core.model.AppBuildInfo
 import com.tailoredapps.bookodyssee.ui.home.homeModule
 import com.tailoredapps.bookodyssee.ui.login.loginModule
 import com.tailoredapps.bookodyssee.ui.registration.registrationModule
+import com.tailoredapps.bookodyssee.ui.search.searchModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -44,4 +45,5 @@ internal val appModules = listOf(
     homeModule,
     registrationModule,
     loginModule,
+    searchModule,
 )

@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -28,12 +29,12 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit,
     viewModel: LoginViewModel = getViewModel()
 ) {
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     LoginView(
-        username = state.value.username,
-        password = state.value.password,
-        isError = state.value.isError,
+        username = state.username,
+        password = state.password,
+        isError = state.isError,
         onUsernameChange = { viewModel.dispatch(LoginViewModel.Action.ChangeUsername(it)) },
         onPasswordChange = { viewModel.dispatch(LoginViewModel.Action.ChangePassword(it)) },
         onLoginClick = { viewModel.dispatch(LoginViewModel.Action.OnLoginClick) }

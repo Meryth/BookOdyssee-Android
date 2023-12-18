@@ -27,7 +27,7 @@ import kotlinx.coroutines.withContext
 //TODO: put API key somewhere else
 //API KEY: AIzaSyB2ERlxklfmkTeQKKpg-p1h90X3nRB7Ghw
 interface DataRepo {
-    suspend fun getBooksBySearchTerm(searchTerm: String): Result<BookList>
+    suspend fun getBooksBySearchTerm(searchTerm: String): BookList
 
     //Database
     suspend fun getUser(username: String): User
@@ -42,7 +42,7 @@ class CoreDataRepo(
     private val booksApi: BooksApi,
     private val database: DatabaseImpl
 ) : DataRepo {
-    override suspend fun getBooksBySearchTerm(searchTerm: String): Result<BookList> =
+    override suspend fun getBooksBySearchTerm(searchTerm: String): BookList =
         booksApi.findBookBySearchTerm(apiKey = TEMP_API_KEY, searchTerm = searchTerm)
 
     override suspend fun getUser(username: String): User =

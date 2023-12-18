@@ -28,7 +28,7 @@ interface BooksApi {
     suspend fun findBookBySearchTerm(
         @Header("X-goog-api-key") apiKey: String,
         @Query("q") searchTerm: String
-    ): Result<BookList>
+    ): BookList
 
     @GET("books/v1/volumes/{volumeId}")
     suspend fun getBookById(
