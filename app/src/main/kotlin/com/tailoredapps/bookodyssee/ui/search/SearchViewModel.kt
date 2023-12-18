@@ -38,6 +38,7 @@ class SearchViewModel(
                         runCatching {
                             dataRepo.getBooksBySearchTerm(action.query)
                         }.onSuccess { bookList ->
+                            //TODO: check if result is null
                             emit(Mutation.SetResultList(searchResult = bookList.items))
                         }.onFailure {
                             Timber.e("Error when fetching books: $it")

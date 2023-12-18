@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -22,9 +24,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.tailoredapps.bookodyssee.R
+import com.tailoredapps.bookodyssee.base.ui.layout.BookItem
 import com.tailoredapps.bookodyssee.base.ui.scaffold.AppScaffold
 import com.tailoredapps.bookodyssee.base.ui.theme.AppTheme
+import com.tailoredapps.bookodyssee.core.model.BookItem
 import org.koin.androidx.compose.getViewModel
+import timber.log.Timber
 
 @Composable
 fun SearchScreen(
@@ -34,6 +39,7 @@ fun SearchScreen(
 
     SearchView(
         searchQuery = state.query,
+        searchResult = state.searchResult,
         onQueryChange = { viewModel.dispatch(SearchViewModel.Action.OnQueryChange(it)) },
         onSearchClick = { viewModel.dispatch(SearchViewModel.Action.OnSearchClick(it)) }
     )
@@ -42,6 +48,7 @@ fun SearchScreen(
 @Composable
 fun SearchView(
     searchQuery: String,
+    searchResult: List<BookItem>,
     onQueryChange: (String) -> Unit,
     onSearchClick: (String) -> Unit,
 ) {
@@ -60,13 +67,27 @@ fun SearchView(
             SearchBar(
                 searchTerm = searchQuery,
                 onSearchChange = onQueryChange,
-                onSearchClick = onSearchClick
+                onSearchClick = onSearchClick,
+                modifier = Modifier.padding(bottom = AppTheme.dimens.dimen24)
             )
 
-            LazyColumn(
-            ) {
-                item {
+            LazyColumn() {
+                items(searchResult) { book ->
+                    BookItem(
+                        title = book.volumeInfo.title,
+                        authorList = book.volumeInfo.authors,
+                        imageUrl = book.volumeInfo.imageLinks?.thumbnail?.replace(
+                            "http",
+                            "https"
+                        ), //TODO: ask mötzi how to do this in a non-caveman way
+                        modifier = Modifier.padding(vertical = AppTheme.dimens.dimen6)
+                    )
 
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = AppTheme.dimens.dimen6)
+                    )
                 }
             }
         }
@@ -130,6 +151,7 @@ private fun SearchBarPreview() {
 private fun SearchPreview() {
     SearchView(
         searchQuery = "search",
+        searchResult = emptyList(),
         onQueryChange = {},
         onSearchClick = {},
     )
