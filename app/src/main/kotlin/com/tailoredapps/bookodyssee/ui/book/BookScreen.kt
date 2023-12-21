@@ -1,4 +1,4 @@
-package com.tailoredapps.bookodyssee.ui.detail
+package com.tailoredapps.bookodyssee.ui.book
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import com.tailoredapps.bookodyssee.base.ui.scaffold.AppScaffold
 
 @Composable
-fun DetailScreen(id: Int?) {
+fun BookScreen(id: Int?) {
     AppScaffold(title = id.toString()) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
             Text(text = id.toString())
