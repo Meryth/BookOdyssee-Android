@@ -76,10 +76,7 @@ fun SearchView(
                     BookItem(
                         title = book.volumeInfo.title,
                         authorList = book.volumeInfo.authors,
-                        imageUrl = book.volumeInfo.imageLinks?.thumbnail?.replace(
-                            "http",
-                            "https"
-                        ), //TODO: ask mötzi how to do this in a non-caveman way
+                        imageUrl = book.volumeInfo.imageLinks?.thumbnail,
                         modifier = Modifier.padding(vertical = AppTheme.dimens.dimen6)
                     )
 
