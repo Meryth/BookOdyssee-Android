@@ -12,6 +12,7 @@ import com.tailoredapps.bookodyssee.navigation.destinations.loginScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.mainScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToBook
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToHome
+import com.tailoredapps.bookodyssee.navigation.destinations.navigateToLogin
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToRegistration
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToSearch
 import com.tailoredapps.bookodyssee.navigation.destinations.registrationScreen
@@ -67,8 +68,8 @@ fun NavHostController.MainNavHost() {
                 onListElementClicked = this@MainNavHost::navigateToBook
             )
             bookScreen()
-            registrationScreen(onRegistrationSuccess = this@MainNavHost::navigateToHome)
-            loginScreen(onLoginSuccess = this@MainNavHost::navigateToHome)
+            registrationScreen(onRegistrationSuccess = this@MainNavHost::navigateToLogin)
+            loginScreen(onLoginSuccess = this@MainNavHost::navigateToSearch)
             searchScreen()
         }
     }
