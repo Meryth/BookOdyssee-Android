@@ -13,4 +13,10 @@
     <string name="registration_error">Looks like something went wrong. Be sure your password is matching and do not leave a field empty!</string>
     <string name="error_login">Wrong username or password!</string>
     <string name="search_hint">Enter title, author…</string>
+    <string name="btn_add_to_list">Add to reading list</string>
+    <string name="lb_state">State</string>
+    <string name="lb_page_count">Page count</string>
+    <string name="lb_year">Year</string>
+    <string name="lb_publisher">Publisher</string>
+    <string name="lb_author">Author</string>
 </resources>

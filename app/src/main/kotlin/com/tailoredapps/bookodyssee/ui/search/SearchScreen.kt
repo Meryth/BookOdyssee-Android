@@ -29,11 +29,11 @@ import com.tailoredapps.bookodyssee.base.ui.scaffold.AppScaffold
 import com.tailoredapps.bookodyssee.base.ui.theme.AppTheme
 import com.tailoredapps.bookodyssee.core.model.BookItem
 import org.koin.androidx.compose.getViewModel
-import timber.log.Timber
 
 @Composable
 fun SearchScreen(
-    viewModel: SearchViewModel = getViewModel()
+    viewModel: SearchViewModel = getViewModel(),
+    onBookClick : (bookId: String) -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -41,7 +41,8 @@ fun SearchScreen(
         searchQuery = state.query,
         searchResult = state.searchResult,
         onQueryChange = { viewModel.dispatch(SearchViewModel.Action.OnQueryChange(it)) },
-        onSearchClick = { viewModel.dispatch(SearchViewModel.Action.OnSearchClick(it)) }
+        onSearchClick = { viewModel.dispatch(SearchViewModel.Action.OnSearchClick(it)) },
+        onBookClick = onBookClick
     )
 }
 
@@ -51,6 +52,7 @@ fun SearchView(
     searchResult: List<BookItem>,
     onQueryChange: (String) -> Unit,
     onSearchClick: (String) -> Unit,
+    onBookClick: (String) -> Unit,
 ) {
     AppScaffold(
         title = stringResource(id = R.string.app_name)
@@ -74,10 +76,12 @@ fun SearchView(
             LazyColumn() {
                 items(searchResult) { book ->
                     BookItem(
+                        bookId = book.id,
                         title = book.volumeInfo.title,
                         authorList = book.volumeInfo.authors,
                         imageUrl = book.volumeInfo.imageLinks?.thumbnail,
-                        modifier = Modifier.padding(vertical = AppTheme.dimens.dimen6)
+                        modifier = Modifier.padding(vertical = AppTheme.dimens.dimen6),
+                        onBookClick = onBookClick
                     )
 
                     Divider(
@@ -151,5 +155,6 @@ private fun SearchPreview() {
         searchResult = emptyList(),
         onQueryChange = {},
         onSearchClick = {},
+        onBookClick = {}
     )
 }

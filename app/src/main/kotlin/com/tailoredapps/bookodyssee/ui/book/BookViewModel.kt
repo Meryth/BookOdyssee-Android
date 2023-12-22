@@ -1,0 +1,66 @@
+package com.tailoredapps.bookodyssee.ui.book
+
+import androidx.lifecycle.viewModelScope
+import at.florianschuster.control.Controller
+import at.florianschuster.control.createController
+import com.tailoredapps.bookodyssee.base.control.ControllerViewModel
+import com.tailoredapps.bookodyssee.core.DataRepo
+import com.tailoredapps.bookodyssee.core.model.BookItem
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.merge
+import timber.log.Timber
+
+class BookViewModel(
+    private val dataRepo: DataRepo,
+    bookId: String
+) : ControllerViewModel<BookViewModel.Action, BookViewModel.State>() {
+    sealed class Action {
+        data object LoadBookData : Action()
+        data object ChangeReadingState : Action()
+    }
+
+    sealed class Mutation {
+        data class SetBookData(val bookItem: BookItem) : Mutation()
+
+        //TODO: add reading state functionality
+        // data object SetReadingState(val readingState : ReadingState) : Mutation()
+    }
+
+    data class State(
+        val bookItem: BookItem? = null,
+    )
+
+    override val controller: Controller<Action, State> =
+        viewModelScope.createController<Action, Mutation, State>(
+            initialState = State(),
+            actionsTransformer = { actions ->
+                merge(
+                    actions,
+                    flowOf(Action.LoadBookData)
+                )
+            },
+            mutator = { action ->
+                when (action) {
+                    is Action.LoadBookData -> flow {
+                        runCatching {
+                            dataRepo.getBookById(bookId)
+                        }.onSuccess { bookItem ->
+                            emit(Mutation.SetBookData(bookItem = bookItem))
+                        }.onFailure {
+                            Timber.e("Error when retrieving book information")
+                        }
+                    }
+
+                    is Action.ChangeReadingState -> flow {
+                        //TODO
+                    }
+                }
+            },
+            reducer = { mutation, previousState ->
+                when (mutation) {
+                    is Mutation.SetBookData -> previousState.copy(bookItem = mutation.bookItem)
+                }
+            }
+        )
+}

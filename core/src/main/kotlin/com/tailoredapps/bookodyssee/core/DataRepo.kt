@@ -18,6 +18,7 @@
 package com.tailoredapps.bookodyssee.core
 
 import com.tailoredapps.bookodyssee.core.local.DatabaseImpl
+import com.tailoredapps.bookodyssee.core.model.BookItem
 import com.tailoredapps.bookodyssee.core.model.BookList
 import com.tailoredapps.bookodyssee.core.model.User
 import com.tailoredapps.bookodyssee.core.remote.BooksApi
@@ -28,8 +29,9 @@ import kotlinx.coroutines.withContext
 //API KEY: AIzaSyB2ERlxklfmkTeQKKpg-p1h90X3nRB7Ghw
 interface DataRepo {
     suspend fun getBooksBySearchTerm(searchTerm: String): BookList
+    suspend fun getBookById(id: String): BookItem
 
-    //Database
+    // DATABASE
     suspend fun getUser(username: String): User
     suspend fun insertUser(user: User)
     suspend fun updateUser(user: User)
@@ -45,6 +47,11 @@ class CoreDataRepo(
     override suspend fun getBooksBySearchTerm(searchTerm: String): BookList =
         booksApi.findBookBySearchTerm(apiKey = TEMP_API_KEY, searchTerm = searchTerm)
 
+    override suspend fun getBookById(id: String): BookItem =
+        booksApi.getBookById(apiKey = TEMP_API_KEY, bookId = id)
+
+
+    // DATABASE
     override suspend fun getUser(username: String): User =
         withContext(Dispatchers.IO) {
             database.userDao().getUser(username)

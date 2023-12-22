@@ -17,6 +17,7 @@
 
 package com.tailoredapps.bookodyssee.core.remote
 
+import com.tailoredapps.bookodyssee.core.model.BookItem
 import com.tailoredapps.bookodyssee.core.model.BookList
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -34,5 +35,5 @@ interface BooksApi {
     suspend fun getBookById(
         @Header("X-goog-api-key") apiKey: String,
         @Path("volumeId") bookId: String
-    )
+    ) : BookItem
 }

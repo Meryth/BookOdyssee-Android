@@ -20,6 +20,7 @@ package com.tailoredapps.bookodyssee
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import com.tailoredapps.bookodyssee.core.model.AppBuildInfo
+import com.tailoredapps.bookodyssee.ui.book.bookModule
 import com.tailoredapps.bookodyssee.ui.home.homeModule
 import com.tailoredapps.bookodyssee.ui.login.loginModule
 import com.tailoredapps.bookodyssee.ui.registration.registrationModule
@@ -46,4 +47,5 @@ internal val appModules = listOf(
     registrationModule,
     loginModule,
     searchModule,
+    bookModule,
 )

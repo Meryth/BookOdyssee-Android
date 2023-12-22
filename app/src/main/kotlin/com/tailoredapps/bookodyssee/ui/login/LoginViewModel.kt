@@ -8,9 +8,8 @@ import com.tailoredapps.bookodyssee.core.DataRepo
 import kotlinx.coroutines.flow.flow
 
 class LoginViewModel(
-    dataRepo: DataRepo
-) :
-    EffectControllerViewModel<LoginViewModel.Action, LoginViewModel.State, LoginViewModel.Effect>() {
+    private val dataRepo: DataRepo
+) : EffectControllerViewModel<LoginViewModel.Action, LoginViewModel.State, LoginViewModel.Effect>() {
     sealed class Action {
         data object OnLoginClick : Action()
         data class ChangeUsername(val username: String) : Action()

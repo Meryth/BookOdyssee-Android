@@ -7,11 +7,9 @@ import androidx.navigation.navigation
 import com.tailoredapps.bookodyssee.navigation.destinations.ROUTE_MAIN
 import com.tailoredapps.bookodyssee.navigation.destinations.ROUTE_WELCOME
 import com.tailoredapps.bookodyssee.navigation.destinations.bookScreen
-import com.tailoredapps.bookodyssee.navigation.destinations.homeScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.loginScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.mainScreen
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToBook
-import com.tailoredapps.bookodyssee.navigation.destinations.navigateToHome
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToLogin
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToRegistration
 import com.tailoredapps.bookodyssee.navigation.destinations.navigateToSearch
@@ -64,13 +62,13 @@ fun NavHostController.MainNavHost() {
                 onLoginClick = this@MainNavHost::navigateToSearch,
                 onRegisterClick = this@MainNavHost::navigateToRegistration
             )
-            homeScreen(
-                onListElementClicked = this@MainNavHost::navigateToBook
-            )
+//            homeScreen(
+//                onListElementClicked = this@MainNavHost::navigateToBook
+//            )
             bookScreen()
             registrationScreen(onRegistrationSuccess = this@MainNavHost::navigateToLogin)
             loginScreen(onLoginSuccess = this@MainNavHost::navigateToSearch)
-            searchScreen()
+            searchScreen(onBookClick = this@MainNavHost::navigateToBook)
         }
     }
 }

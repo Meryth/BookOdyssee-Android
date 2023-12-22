@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flowOf
 import timber.log.Timber
 
 class SearchViewModel(
-    dataRepo: DataRepo
+    private val dataRepo: DataRepo
 ) : ControllerViewModel<SearchViewModel.Action, SearchViewModel.State>() {
     sealed class Action {
         data class OnQueryChange(val query: String) : Action()

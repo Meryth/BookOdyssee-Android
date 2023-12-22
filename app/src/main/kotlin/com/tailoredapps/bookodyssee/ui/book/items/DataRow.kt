@@ -1,4 +1,4 @@
-package com.tailoredapps.bookodyssee.ui.book
+package com.tailoredapps.bookodyssee.ui.book.items
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

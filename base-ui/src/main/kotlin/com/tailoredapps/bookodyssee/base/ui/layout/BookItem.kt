@@ -1,6 +1,7 @@
 package com.tailoredapps.bookodyssee.base.ui.layout
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,13 +20,17 @@ import com.tailoredapps.bookodyssee.base.ui.theme.AppTheme
 
 @Composable
 fun BookItem(
+    bookId: String,
     title: String,
     authorList: List<String>?,
     imageUrl: String?,
+    onBookClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onBookClick(bookId) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -53,8 +58,10 @@ fun BookItem(
 @Composable
 fun BookItemPreview() {
     BookItem(
+        bookId = "bookId",
         title = "Mcdonald's Einstieg",
         authorList = listOf("Lebensmüder Student"),
-        imageUrl = "mcdonalds.png"
+        imageUrl = "mcdonalds.png",
+        onBookClick = {}
     )
 }

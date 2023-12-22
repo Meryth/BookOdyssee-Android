@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 class RegistrationViewModel(
-    dataRepo: DataRepo
+    private val dataRepo: DataRepo
 ) :
     EffectControllerViewModel<RegistrationViewModel.Action, RegistrationViewModel.State, RegistrationViewModel.Effect>() {
     sealed class Action {
