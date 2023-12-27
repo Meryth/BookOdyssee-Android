@@ -20,9 +20,10 @@ interface BookDao {
 
     @Query("SELECT * FROM book WHERE bookId = :bookId")
     fun getBook(bookId: String): LocalBook
+
     @Update(entity = LocalBook::class)
     fun updateReadingState(updateBook: UpdateBook)
 
-    @Query("SELECT EXISTS(SELECT * FROM book WHERE userId = :userId AND bookId = :bookId)")
-    fun checkIfBookExists(userId: Int, bookId: String): Boolean
+    @Query("SELECT * FROM book WHERE userId = :userId AND bookId = :bookId")
+    fun getBookByUser(userId: Int, bookId: String): LocalBook?
 }

@@ -40,7 +40,7 @@ interface DataRepo {
     suspend fun insertUser(user: User)
     suspend fun updateUser(user: User)
     suspend fun getBook(bookId: String): LocalBook
-    suspend fun checkBookAdded(userId: Int, bookId: String): Boolean
+    suspend fun getBookByUser(userId: Int, bookId: String): LocalBook?
     suspend fun insertBook(book: LocalBook)
     suspend fun updateBook(userId: Int, bookId: String, readingState: ReadingState)
     suspend fun deleteBook(userId: Int, bookId: String)
@@ -80,9 +80,9 @@ class CoreDataRepo(
             database.bookDao().getBook(bookId)
         }
 
-    override suspend fun checkBookAdded(userId: Int, bookId: String): Boolean =
+    override suspend fun getBookByUser(userId: Int, bookId: String): LocalBook? =
         withContext(Dispatchers.IO) {
-            database.bookDao().checkIfBookExists(userId, bookId)
+            database.bookDao().getBookByUser(userId, bookId)
         }
 
     override suspend fun insertBook(book: LocalBook) =

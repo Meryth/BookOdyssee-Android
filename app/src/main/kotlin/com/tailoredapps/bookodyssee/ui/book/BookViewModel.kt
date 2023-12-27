@@ -57,12 +57,10 @@ class BookViewModel(
                         }
 
                         runCatching {
-                            dataRepo.checkBookAdded(userId = sharedPrefs.userId, bookId = bookId)
-                        }.onSuccess { exists ->
-                            if (exists) {
-                                emit(Mutation.SetReadingState(ReadingState.TO_READ))
-                            } else {
-                                emit(Mutation.SetReadingState(ReadingState.NOT_ADDED))
+                            dataRepo.getBookByUser(userId = sharedPrefs.userId, bookId = bookId)
+                        }.onSuccess { book ->
+                            if (book != null) {
+                                emit(Mutation.SetReadingState(book.readingState))
                             }
                         }.onFailure {
                             Timber.e("Error when checking book $it")

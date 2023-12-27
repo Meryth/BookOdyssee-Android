@@ -129,7 +129,10 @@ fun BookView(
                     .padding(vertical = AppTheme.dimens.dimen12)
             )
 
-            Text(text = bookVolume.description)
+            Text(
+                text = bookVolume.description,
+                modifier = Modifier.padding(bottom = AppTheme.dimens.dimen24)
+            )
 
             Spacer(modifier = Modifier.weight(1f))
 
