@@ -18,6 +18,8 @@
 package com.tailoredapps.bookodyssee.core
 
 import com.google.gson.GsonBuilder
+import com.tailoredapps.bookodyssee.core.local.BookOdysseeSharedPrefs
+import com.tailoredapps.bookodyssee.core.local.SharedPrefs
 import com.tailoredapps.bookodyssee.core.local.localModule
 import com.tailoredapps.bookodyssee.core.remote.remoteModule
 import org.koin.dsl.module
@@ -25,6 +27,7 @@ import org.koin.dsl.module
 internal val coreModule = module {
     single { GsonBuilder().create() }
     single<DataRepo> { CoreDataRepo(booksApi = get(), database = get()) }
+    single<SharedPrefs> { BookOdysseeSharedPrefs(context = get()) }
 }
 
 val coreModules = listOf(coreModule, localModule, remoteModule)

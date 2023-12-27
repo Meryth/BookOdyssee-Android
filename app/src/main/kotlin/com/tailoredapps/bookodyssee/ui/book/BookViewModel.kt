@@ -5,7 +5,9 @@ import at.florianschuster.control.Controller
 import at.florianschuster.control.createController
 import com.tailoredapps.bookodyssee.base.control.ControllerViewModel
 import com.tailoredapps.bookodyssee.core.DataRepo
+import com.tailoredapps.bookodyssee.core.local.BookOdysseeSharedPrefs
 import com.tailoredapps.bookodyssee.core.local.LocalBook
+import com.tailoredapps.bookodyssee.core.local.SharedPrefs
 import com.tailoredapps.bookodyssee.core.model.BookItem
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -14,6 +16,7 @@ import timber.log.Timber
 
 class BookViewModel(
     private val dataRepo: DataRepo,
+    private val sharedPrefs: SharedPrefs,
     bookId: String
 ) : ControllerViewModel<BookViewModel.Action, BookViewModel.State>() {
     sealed class Action {
@@ -59,11 +62,11 @@ class BookViewModel(
                     is Action.AddBookToReadingList -> flow {
                         runCatching {
                             val book = currentState.bookItem?.volumeInfo
-                            //TODO: take userId from sharedPrefs
+                            Timber.d("aaa userId ${sharedPrefs.userId}")
                             if (book != null) {
                                 dataRepo.insertBook(
                                     book = LocalBook(
-                                        userId = 1,
+                                        userId = sharedPrefs.userId,
                                         bookId = bookId,
                                         authors = book.authors,
                                         title = book.title,

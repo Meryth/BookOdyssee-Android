@@ -5,10 +5,14 @@ import at.florianschuster.control.EffectController
 import at.florianschuster.control.createEffectController
 import com.tailoredapps.bookodyssee.base.control.EffectControllerViewModel
 import com.tailoredapps.bookodyssee.core.DataRepo
+import com.tailoredapps.bookodyssee.core.local.BookOdysseeSharedPrefs
+import com.tailoredapps.bookodyssee.core.local.SharedPrefs
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 
 class LoginViewModel(
-    private val dataRepo: DataRepo
+    private val dataRepo: DataRepo,
+    private val sharedPrefs: SharedPrefs
 ) : EffectControllerViewModel<LoginViewModel.Action, LoginViewModel.State, LoginViewModel.Effect>() {
     sealed class Action {
         data object OnLoginClick : Action()
@@ -47,14 +51,18 @@ class LoginViewModel(
 
                     is Action.OnLoginClick -> flow {
                         emit(Mutation.ShowErrorMessage(false))
-                        val passwordDb = dataRepo.getUser(currentState.username).password
-
-                        if (passwordDb == currentState.password) {
-                            emitEffect(Effect.IsSuccess)
-                        } else {
-                            emit(Mutation.ShowErrorMessage(true))
+                        runCatching {
+                            dataRepo.getUser(currentState.username)
+                        }.onSuccess { user ->
+                            if (user.password == currentState.password) {
+                                sharedPrefs.userId = user.id
+                                emitEffect(Effect.IsSuccess)
+                            } else {
+                                emit(Mutation.ShowErrorMessage(true))
+                            }
+                        }.onFailure {
+                            Timber.e("Error: could not retrieve user from database!")
                         }
-
                     }
                 }
             },

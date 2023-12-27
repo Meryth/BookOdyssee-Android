@@ -59,7 +59,7 @@ fun NavHostController.MainNavHost() {
     ) {
         navigation(startDestination = ROUTE_WELCOME, route = NavGraphs.Welcome.route) {
             welcomeScreen(
-                onLoginClick = this@MainNavHost::navigateToSearch,
+                onLoginClick = this@MainNavHost::navigateToLogin,
                 onRegisterClick = this@MainNavHost::navigateToRegistration
             )
 //            homeScreen(

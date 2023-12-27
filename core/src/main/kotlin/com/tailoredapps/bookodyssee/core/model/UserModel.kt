@@ -4,8 +4,6 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-
-//TODO: handle error when unique restriction violated
 @Entity(
     tableName = "user",
     indices = [Index(value = ["username"], unique = true)]
