@@ -30,6 +30,7 @@ fun PrimaryButton(
     ) {
         Text(
             text = btnText,
+            style = AppTheme.typography.bodyLarge,
             modifier = Modifier.padding(vertical = AppTheme.dimens.dimen6)
         )
     }
