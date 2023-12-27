@@ -5,6 +5,7 @@ import at.florianschuster.control.Controller
 import at.florianschuster.control.createController
 import com.tailoredapps.bookodyssee.base.control.ControllerViewModel
 import com.tailoredapps.bookodyssee.core.DataRepo
+import com.tailoredapps.bookodyssee.core.local.LocalBook
 import com.tailoredapps.bookodyssee.core.model.BookItem
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -17,11 +18,13 @@ class BookViewModel(
 ) : ControllerViewModel<BookViewModel.Action, BookViewModel.State>() {
     sealed class Action {
         data object LoadBookData : Action()
+        data object AddBookToReadingList : Action()
         data object ChangeReadingState : Action()
     }
 
     sealed class Mutation {
         data class SetBookData(val bookItem: BookItem) : Mutation()
+        data class SetBookAddedState(val isAdded: Boolean) : Mutation()
 
         //TODO: add reading state functionality
         // data object SetReadingState(val readingState : ReadingState) : Mutation()
@@ -29,6 +32,7 @@ class BookViewModel(
 
     data class State(
         val bookItem: BookItem? = null,
+        val isBookAddedToList: Boolean = false
     )
 
     override val controller: Controller<Action, State> =
@@ -52,6 +56,33 @@ class BookViewModel(
                         }
                     }
 
+                    is Action.AddBookToReadingList -> flow {
+                        runCatching {
+                            val book = currentState.bookItem?.volumeInfo
+                            //TODO: take userId from sharedPrefs
+                            if (book != null) {
+                                dataRepo.insertBook(
+                                    book = LocalBook(
+                                        userId = 1,
+                                        bookId = bookId,
+                                        authors = book.authors,
+                                        title = book.title,
+                                        publisher = book.publisher,
+                                        publishedDate = book.publishedDate,
+                                        pageCount = book.pageCount,
+                                        imageLink = book.imageLinks?.thumbnail.orEmpty(),
+                                        readState = "to read"
+                                    )
+                                )
+                            }
+                        }.onSuccess {
+                            emit(Mutation.SetBookAddedState(true))
+                            Timber.d("aaa book was successfully added")
+                        }.onFailure {
+                            Timber.e("Error: Book could not be added $it")
+                        }
+                    }
+
                     is Action.ChangeReadingState -> flow {
                         //TODO
                     }
@@ -60,6 +91,7 @@ class BookViewModel(
             reducer = { mutation, previousState ->
                 when (mutation) {
                     is Mutation.SetBookData -> previousState.copy(bookItem = mutation.bookItem)
+                    is Mutation.SetBookAddedState -> previousState.copy(isBookAddedToList = mutation.isAdded)
                 }
             }
         )

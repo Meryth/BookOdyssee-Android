@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import kotlinx.coroutines.flow.Flow
+import com.tailoredapps.bookodyssee.core.local.LocalBook
 
 @Dao
 interface UserDao {
@@ -16,5 +16,8 @@ interface UserDao {
     suspend fun updateUser(user: User)
 
     @Query("SELECT * FROM user WHERE username = :username")
-    fun getUser(username: String) : User
+    fun getUser(username: String): User
+
+    @Query("SELECT * FROM user JOIN book ON user.id = book.userId WHERE user.id = :userId")
+    fun getSavedBooks(userId: Int): Map<User, List<LocalBook>>
 }

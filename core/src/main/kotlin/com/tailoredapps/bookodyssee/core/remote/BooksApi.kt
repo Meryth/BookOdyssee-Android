@@ -18,7 +18,7 @@
 package com.tailoredapps.bookodyssee.core.remote
 
 import com.tailoredapps.bookodyssee.core.model.BookItem
-import com.tailoredapps.bookodyssee.core.model.BookList
+import com.tailoredapps.bookodyssee.core.model.RemoteBookList
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -29,7 +29,7 @@ interface BooksApi {
     suspend fun findBookBySearchTerm(
         @Header("X-goog-api-key") apiKey: String,
         @Query("q") searchTerm: String
-    ): BookList
+    ): RemoteBookList
 
     @GET("books/v1/volumes/{volumeId}")
     suspend fun getBookById(

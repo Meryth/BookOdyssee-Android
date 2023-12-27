@@ -19,18 +19,26 @@ package com.tailoredapps.bookodyssee.core.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.tailoredapps.bookodyssee.core.model.BookDao
 import com.tailoredapps.bookodyssee.core.model.User
 import com.tailoredapps.bookodyssee.core.model.UserDao
 
 interface Database
 
 
-@Database(entities = [User::class], version = 1, exportSchema = false)
+@Database(
+    entities = [User::class, LocalBook::class],
+    version = 1,
+    exportSchema = false
+)
+@TypeConverters(ListConverter::class)
 abstract class DatabaseImpl : RoomDatabase() {
-    abstract fun userDao() : UserDao
+    abstract fun userDao(): UserDao
+    abstract fun bookDao(): BookDao
 
     companion object {
         const val VERSION = 1
-        const val NAME = "user_database"
+        const val NAME = "odyssee_database"
     }
 }

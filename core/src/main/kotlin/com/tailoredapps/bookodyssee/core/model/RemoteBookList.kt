@@ -1,6 +1,6 @@
 package com.tailoredapps.bookodyssee.core.model
 
-data class BookList(
+data class RemoteBookList(
     val items: List<BookItem>,
 )
 

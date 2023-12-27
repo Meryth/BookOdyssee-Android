@@ -18,8 +18,9 @@
 package com.tailoredapps.bookodyssee.core
 
 import com.tailoredapps.bookodyssee.core.local.DatabaseImpl
+import com.tailoredapps.bookodyssee.core.local.LocalBook
 import com.tailoredapps.bookodyssee.core.model.BookItem
-import com.tailoredapps.bookodyssee.core.model.BookList
+import com.tailoredapps.bookodyssee.core.model.RemoteBookList
 import com.tailoredapps.bookodyssee.core.model.User
 import com.tailoredapps.bookodyssee.core.remote.BooksApi
 import kotlinx.coroutines.Dispatchers
@@ -28,13 +29,17 @@ import kotlinx.coroutines.withContext
 //TODO: put API key somewhere else
 //API KEY: AIzaSyB2ERlxklfmkTeQKKpg-p1h90X3nRB7Ghw
 interface DataRepo {
-    suspend fun getBooksBySearchTerm(searchTerm: String): BookList
+    suspend fun getBooksBySearchTerm(searchTerm: String): RemoteBookList
     suspend fun getBookById(id: String): BookItem
 
     // DATABASE
     suspend fun getUser(username: String): User
     suspend fun insertUser(user: User)
     suspend fun updateUser(user: User)
+    suspend fun getBook(bookId: String): LocalBook
+    suspend fun insertBook(book: LocalBook)
+    suspend fun deleteBook(book: LocalBook)
+
 
 }
 
@@ -44,7 +49,7 @@ class CoreDataRepo(
     private val booksApi: BooksApi,
     private val database: DatabaseImpl
 ) : DataRepo {
-    override suspend fun getBooksBySearchTerm(searchTerm: String): BookList =
+    override suspend fun getBooksBySearchTerm(searchTerm: String): RemoteBookList =
         booksApi.findBookBySearchTerm(apiKey = TEMP_API_KEY, searchTerm = searchTerm)
 
     override suspend fun getBookById(id: String): BookItem =
@@ -65,5 +70,20 @@ class CoreDataRepo(
     override suspend fun updateUser(user: User) =
         withContext(Dispatchers.IO) {
             database.userDao().updateUser(user)
+        }
+
+    override suspend fun getBook(bookId: String): LocalBook =
+        withContext(Dispatchers.IO) {
+            database.bookDao().getBook(bookId)
+        }
+
+    override suspend fun insertBook(book: LocalBook) =
+        withContext(Dispatchers.IO) {
+            database.bookDao().insertBook(book)
+        }
+
+    override suspend fun deleteBook(book: LocalBook) =
+        withContext(Dispatchers.IO) {
+            database.bookDao().deleteBook(book)
         }
 }

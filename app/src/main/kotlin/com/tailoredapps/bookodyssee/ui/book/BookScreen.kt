@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -48,7 +47,8 @@ fun BookScreen(
     if (volumeInfo != null) {
         BookView(
             bookVolume = volumeInfo,
-            scrollState = scrollState
+            scrollState = scrollState,
+            onAddToListClick = { viewModel.dispatch(BookViewModel.Action.AddBookToReadingList) }
         )
     } else {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -63,6 +63,7 @@ fun BookScreen(
 fun BookView(
     bookVolume: VolumeInfo,
     scrollState: ScrollState,
+    onAddToListClick: () -> Unit,
 ) {
     AppScaffold(
         title = stringResource(id = R.string.app_name)
@@ -122,12 +123,13 @@ fun BookView(
 
             Spacer(modifier = Modifier.weight(1f))
 
+            //TODO: check if already added and change method + text
             PrimaryButton(
                 btnText = stringResource(R.string.btn_add_to_list),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = AppTheme.dimens.dimen24),
-                onClick = { /*TODO*/ }
+                onClick = onAddToListClick
             )
         }
     }
@@ -146,6 +148,7 @@ fun BookViewPreview() {
             pageCount = 101,
             imageLinks = BookImageLinks("asd")
         ),
-        scrollState = ScrollState(0)
+        scrollState = ScrollState(0),
+        onAddToListClick = {}
     )
 }

@@ -1,12 +1,15 @@
 package com.tailoredapps.bookodyssee.core.model
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 
-//TODO: add list of saved books after the api has been integrated
-
-@Entity(tableName = "user")
+//TODO: handle error when unique restriction violated
+@Entity(
+    tableName = "user",
+    indices = [Index(value = ["username"], unique = true)]
+)
 data class User(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
