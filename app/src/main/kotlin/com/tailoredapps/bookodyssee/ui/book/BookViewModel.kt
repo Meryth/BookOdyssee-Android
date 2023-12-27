@@ -5,7 +5,6 @@ import at.florianschuster.control.Controller
 import at.florianschuster.control.createController
 import com.tailoredapps.bookodyssee.base.control.ControllerViewModel
 import com.tailoredapps.bookodyssee.core.DataRepo
-import com.tailoredapps.bookodyssee.core.local.BookOdysseeSharedPrefs
 import com.tailoredapps.bookodyssee.core.local.LocalBook
 import com.tailoredapps.bookodyssee.core.local.SharedPrefs
 import com.tailoredapps.bookodyssee.core.model.BookItem
@@ -22,6 +21,7 @@ class BookViewModel(
     sealed class Action {
         data object LoadBookData : Action()
         data object AddBookToReadingList : Action()
+        data object RemoveBookFromReadingList : Action()
         data object ChangeReadingState : Action()
     }
 
@@ -55,14 +55,25 @@ class BookViewModel(
                         }.onSuccess { bookItem ->
                             emit(Mutation.SetBookData(bookItem = bookItem))
                         }.onFailure {
-                            Timber.e("Error when retrieving book information")
+                            Timber.e("Error when retrieving book information $it")
+                        }
+
+                        runCatching {
+                            dataRepo.checkBookAdded(userId = sharedPrefs.userId, bookId = bookId)
+                        }.onSuccess { exists ->
+                            if (exists) {
+                                emit(Mutation.SetBookAddedState(true))
+                            } else {
+                                emit(Mutation.SetBookAddedState(false))
+                            }
+                        }.onFailure {
+                            Timber.e("Error when checking book $it")
                         }
                     }
 
                     is Action.AddBookToReadingList -> flow {
                         runCatching {
                             val book = currentState.bookItem?.volumeInfo
-                            Timber.d("aaa userId ${sharedPrefs.userId}")
                             if (book != null) {
                                 dataRepo.insertBook(
                                     book = LocalBook(
@@ -83,6 +94,16 @@ class BookViewModel(
                             Timber.d("aaa book was successfully added")
                         }.onFailure {
                             Timber.e("Error: Book could not be added $it")
+                        }
+                    }
+
+                    is Action.RemoveBookFromReadingList -> flow {
+                        runCatching {
+                            dataRepo.deleteBook(userId = sharedPrefs.userId, bookId = bookId)
+                        }.onSuccess {
+                            emit(Mutation.SetBookAddedState(false))
+                        }.onFailure {
+                            Timber.e("Error: Book could not be removed $it")
                         }
                     }
 

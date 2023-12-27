@@ -18,6 +18,7 @@
 package com.tailoredapps.bookodyssee.core
 
 import com.tailoredapps.bookodyssee.core.local.DatabaseImpl
+import com.tailoredapps.bookodyssee.core.local.DeleteBook
 import com.tailoredapps.bookodyssee.core.local.LocalBook
 import com.tailoredapps.bookodyssee.core.model.BookItem
 import com.tailoredapps.bookodyssee.core.model.RemoteBookList
@@ -37,10 +38,9 @@ interface DataRepo {
     suspend fun insertUser(user: User)
     suspend fun updateUser(user: User)
     suspend fun getBook(bookId: String): LocalBook
+    suspend fun checkBookAdded(userId: Int, bookId: String): Boolean
     suspend fun insertBook(book: LocalBook)
-    suspend fun deleteBook(book: LocalBook)
-
-
+    suspend fun deleteBook(userId: Int, bookId: String)
 }
 
 const val TEMP_API_KEY = "AIzaSyCB0pJ6U7O32HS2J4WogSM31LsIvVleJws"
@@ -77,13 +77,23 @@ class CoreDataRepo(
             database.bookDao().getBook(bookId)
         }
 
+    override suspend fun checkBookAdded(userId: Int, bookId: String): Boolean =
+        withContext(Dispatchers.IO) {
+            database.bookDao().checkIfBookExists(userId, bookId)
+        }
+
     override suspend fun insertBook(book: LocalBook) =
         withContext(Dispatchers.IO) {
             database.bookDao().insertBook(book)
         }
 
-    override suspend fun deleteBook(book: LocalBook) =
+    override suspend fun deleteBook(userId: Int, bookId: String) =
         withContext(Dispatchers.IO) {
-            database.bookDao().deleteBook(book)
+            database.bookDao().deleteBook(
+                deleteBook = DeleteBook(
+                    userId = userId,
+                    bookId = bookId
+                )
+            )
         }
 }

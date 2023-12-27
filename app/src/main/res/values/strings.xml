@@ -19,4 +19,5 @@
     <string name="lb_year">Year</string>
     <string name="lb_publisher">Publisher</string>
     <string name="lb_author">Author</string>
+    <string name="btn_remove_from_list">Remove from reading list</string>
 </resources>

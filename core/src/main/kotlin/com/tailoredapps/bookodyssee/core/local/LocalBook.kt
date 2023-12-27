@@ -18,3 +18,8 @@ data class LocalBook(
     val imageLink: String,
     val readState: String, //TODO: think about how to best save state
 )
+
+data class DeleteBook(
+    val userId: Int,
+    val bookId: String
+)

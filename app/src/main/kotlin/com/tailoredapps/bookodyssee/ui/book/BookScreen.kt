@@ -48,7 +48,9 @@ fun BookScreen(
         BookView(
             bookVolume = volumeInfo,
             scrollState = scrollState,
-            onAddToListClick = { viewModel.dispatch(BookViewModel.Action.AddBookToReadingList) }
+            isAddedToReadingList = state.isBookAddedToList,
+            onAddToListClick = { viewModel.dispatch(BookViewModel.Action.AddBookToReadingList) },
+            onRemoveFromListClick = { viewModel.dispatch(BookViewModel.Action.RemoveBookFromReadingList) }
         )
     } else {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -63,7 +65,9 @@ fun BookScreen(
 fun BookView(
     bookVolume: VolumeInfo,
     scrollState: ScrollState,
+    isAddedToReadingList: Boolean,
     onAddToListClick: () -> Unit,
+    onRemoveFromListClick: () -> Unit
 ) {
     AppScaffold(
         title = stringResource(id = R.string.app_name)
@@ -124,13 +128,24 @@ fun BookView(
             Spacer(modifier = Modifier.weight(1f))
 
             //TODO: check if already added and change method + text
-            PrimaryButton(
-                btnText = stringResource(R.string.btn_add_to_list),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = AppTheme.dimens.dimen24),
-                onClick = onAddToListClick
-            )
+            if (isAddedToReadingList) {
+                PrimaryButton(
+                    btnText = stringResource(R.string.btn_remove_from_list),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = AppTheme.dimens.dimen24),
+                    onClick = onRemoveFromListClick
+                )
+
+            } else {
+                PrimaryButton(
+                    btnText = stringResource(R.string.btn_add_to_list),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = AppTheme.dimens.dimen24),
+                    onClick = onAddToListClick
+                )
+            }
         }
     }
 }
@@ -149,6 +164,8 @@ fun BookViewPreview() {
             imageLinks = BookImageLinks("asd")
         ),
         scrollState = ScrollState(0),
-        onAddToListClick = {}
+        isAddedToReadingList = false,
+        onAddToListClick = {},
+        onRemoveFromListClick = {}
     )
 }
