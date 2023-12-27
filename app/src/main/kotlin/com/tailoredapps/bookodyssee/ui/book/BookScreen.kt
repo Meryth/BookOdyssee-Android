@@ -28,6 +28,7 @@ import com.tailoredapps.bookodyssee.R
 import com.tailoredapps.bookodyssee.base.ui.button.PrimaryButton
 import com.tailoredapps.bookodyssee.base.ui.scaffold.AppScaffold
 import com.tailoredapps.bookodyssee.base.ui.theme.AppTheme
+import com.tailoredapps.bookodyssee.core.local.ReadingState
 import com.tailoredapps.bookodyssee.core.model.BookImageLinks
 import com.tailoredapps.bookodyssee.core.model.VolumeInfo
 import com.tailoredapps.bookodyssee.ui.book.items.DataRow
@@ -48,8 +49,9 @@ fun BookScreen(
         BookView(
             bookVolume = volumeInfo,
             scrollState = scrollState,
-            isAddedToReadingList = state.isBookAddedToList,
+            readingState = state.readingState,
             onAddToListClick = { viewModel.dispatch(BookViewModel.Action.AddBookToReadingList) },
+            onUpdateReadingState = { viewModel.dispatch(BookViewModel.Action.ChangeReadingState(it)) },
             onRemoveFromListClick = { viewModel.dispatch(BookViewModel.Action.RemoveBookFromReadingList) }
         )
     } else {
@@ -65,8 +67,9 @@ fun BookScreen(
 fun BookView(
     bookVolume: VolumeInfo,
     scrollState: ScrollState,
-    isAddedToReadingList: Boolean,
+    readingState: ReadingState,
     onAddToListClick: () -> Unit,
+    onUpdateReadingState: (ReadingState) -> Unit,
     onRemoveFromListClick: () -> Unit
 ) {
     AppScaffold(
@@ -115,35 +118,57 @@ fun BookView(
             DataRow(field = stringResource(R.string.lb_author), value = bookVolume.authors)
             DataRow(field = stringResource(R.string.lb_publisher), value = bookVolume.publisher)
             DataRow(field = stringResource(R.string.lb_year), value = bookVolume.publishedDate)
-
-            //TODO: check if book can be found in room database
-            // if yes -> show reading/to read/finished
-            // if not -> show "add to list" button
-            DataRow(field = stringResource(R.string.lb_state), value = "TODO")
             DataRow(
                 field = stringResource(R.string.lb_page_count),
                 value = bookVolume.pageCount.toString()
             )
 
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = AppTheme.dimens.dimen12)
+            )
+
+            Text(text = bookVolume.description)
+
             Spacer(modifier = Modifier.weight(1f))
 
-            //TODO: check if already added and change method + text
-            if (isAddedToReadingList) {
-                PrimaryButton(
-                    btnText = stringResource(R.string.btn_remove_from_list),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = AppTheme.dimens.dimen24),
-                    onClick = onRemoveFromListClick
-                )
-
-            } else {
+            if (readingState == ReadingState.NOT_ADDED) {
                 PrimaryButton(
                     btnText = stringResource(R.string.btn_add_to_list),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = AppTheme.dimens.dimen24),
                     onClick = onAddToListClick
+                )
+            } else {
+                if (readingState != ReadingState.FINISHED) {
+
+                    if (readingState != ReadingState.CURRENTLY_READING) {
+                        PrimaryButton(
+                            btnText = stringResource(R.string.btn_start_reading),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = AppTheme.dimens.dimen24),
+                            onClick = { onUpdateReadingState(ReadingState.CURRENTLY_READING) }
+                        )
+                    }
+
+                    PrimaryButton(
+                        btnText = stringResource(R.string.btn_finish),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = AppTheme.dimens.dimen24),
+                        onClick = { onUpdateReadingState(ReadingState.FINISHED) }
+                    )
+                }
+
+                PrimaryButton(
+                    btnText = stringResource(R.string.btn_remove_from_list),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = AppTheme.dimens.dimen24),
+                    onClick = onRemoveFromListClick
                 )
             }
         }
@@ -164,8 +189,9 @@ fun BookViewPreview() {
             imageLinks = BookImageLinks("asd")
         ),
         scrollState = ScrollState(0),
-        isAddedToReadingList = false,
+        readingState = ReadingState.FINISHED,
         onAddToListClick = {},
+        onUpdateReadingState = {},
         onRemoveFromListClick = {}
     )
 }

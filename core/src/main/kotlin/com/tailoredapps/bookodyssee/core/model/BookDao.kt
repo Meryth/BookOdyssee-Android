@@ -4,8 +4,10 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.tailoredapps.bookodyssee.core.local.DeleteBook
 import com.tailoredapps.bookodyssee.core.local.LocalBook
+import com.tailoredapps.bookodyssee.core.local.UpdateBook
 
 @Dao
 interface BookDao {
@@ -18,6 +20,8 @@ interface BookDao {
 
     @Query("SELECT * FROM book WHERE bookId = :bookId")
     fun getBook(bookId: String): LocalBook
+    @Update(entity = LocalBook::class)
+    fun updateReadingState(updateBook: UpdateBook)
 
     @Query("SELECT EXISTS(SELECT * FROM book WHERE userId = :userId AND bookId = :bookId)")
     fun checkIfBookExists(userId: Int, bookId: String): Boolean

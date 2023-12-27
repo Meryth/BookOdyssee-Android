@@ -20,4 +20,6 @@
     <string name="lb_publisher">Publisher</string>
     <string name="lb_author">Author</string>
     <string name="btn_remove_from_list">Remove from reading list</string>
+    <string name="btn_start_reading">Start reading</string>
+    <string name="btn_finish">Finish</string>
 </resources>

@@ -6,6 +6,7 @@ import at.florianschuster.control.createController
 import com.tailoredapps.bookodyssee.base.control.ControllerViewModel
 import com.tailoredapps.bookodyssee.core.DataRepo
 import com.tailoredapps.bookodyssee.core.local.LocalBook
+import com.tailoredapps.bookodyssee.core.local.ReadingState
 import com.tailoredapps.bookodyssee.core.local.SharedPrefs
 import com.tailoredapps.bookodyssee.core.model.BookItem
 import kotlinx.coroutines.flow.flow
@@ -22,20 +23,17 @@ class BookViewModel(
         data object LoadBookData : Action()
         data object AddBookToReadingList : Action()
         data object RemoveBookFromReadingList : Action()
-        data object ChangeReadingState : Action()
+        data class ChangeReadingState(val readingState: ReadingState) : Action()
     }
 
     sealed class Mutation {
         data class SetBookData(val bookItem: BookItem) : Mutation()
-        data class SetBookAddedState(val isAdded: Boolean) : Mutation()
-
-        //TODO: add reading state functionality
-        // data object SetReadingState(val readingState : ReadingState) : Mutation()
+        data class SetReadingState(val readingState: ReadingState) : Mutation()
     }
 
     data class State(
         val bookItem: BookItem? = null,
-        val isBookAddedToList: Boolean = false
+        val readingState: ReadingState = ReadingState.NOT_ADDED
     )
 
     override val controller: Controller<Action, State> =
@@ -62,9 +60,9 @@ class BookViewModel(
                             dataRepo.checkBookAdded(userId = sharedPrefs.userId, bookId = bookId)
                         }.onSuccess { exists ->
                             if (exists) {
-                                emit(Mutation.SetBookAddedState(true))
+                                emit(Mutation.SetReadingState(ReadingState.TO_READ))
                             } else {
-                                emit(Mutation.SetBookAddedState(false))
+                                emit(Mutation.SetReadingState(ReadingState.NOT_ADDED))
                             }
                         }.onFailure {
                             Timber.e("Error when checking book $it")
@@ -85,15 +83,28 @@ class BookViewModel(
                                         publishedDate = book.publishedDate,
                                         pageCount = book.pageCount,
                                         imageLink = book.imageLinks?.thumbnail.orEmpty(),
-                                        readState = "to read"
+                                        readingState = ReadingState.TO_READ
                                     )
                                 )
                             }
                         }.onSuccess {
-                            emit(Mutation.SetBookAddedState(true))
-                            Timber.d("aaa book was successfully added")
+                            emit(Mutation.SetReadingState(ReadingState.TO_READ))
                         }.onFailure {
                             Timber.e("Error: Book could not be added $it")
+                        }
+                    }
+
+                    is Action.ChangeReadingState -> flow {
+                        runCatching {
+                            dataRepo.updateBook(
+                                userId = sharedPrefs.userId,
+                                bookId = bookId,
+                                readingState = action.readingState
+                            )
+                        }.onSuccess {
+                            emit(Mutation.SetReadingState(action.readingState))
+                        }.onFailure {
+                            Timber.e("Error: Reading state of book could not be updated $it")
                         }
                     }
 
@@ -101,21 +112,17 @@ class BookViewModel(
                         runCatching {
                             dataRepo.deleteBook(userId = sharedPrefs.userId, bookId = bookId)
                         }.onSuccess {
-                            emit(Mutation.SetBookAddedState(false))
+                            emit(Mutation.SetReadingState(ReadingState.NOT_ADDED))
                         }.onFailure {
                             Timber.e("Error: Book could not be removed $it")
                         }
-                    }
-
-                    is Action.ChangeReadingState -> flow {
-                        //TODO
                     }
                 }
             },
             reducer = { mutation, previousState ->
                 when (mutation) {
                     is Mutation.SetBookData -> previousState.copy(bookItem = mutation.bookItem)
-                    is Mutation.SetBookAddedState -> previousState.copy(isBookAddedToList = mutation.isAdded)
+                    is Mutation.SetReadingState -> previousState.copy(readingState = mutation.readingState)
                 }
             }
         )

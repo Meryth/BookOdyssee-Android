@@ -1,7 +1,10 @@
 package com.tailoredapps.bookodyssee.core.local
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
+
+enum class ReadingState {
+    NOT_ADDED, TO_READ, CURRENTLY_READING, FINISHED
+}
 
 @Entity(
     tableName = "book",
@@ -16,7 +19,13 @@ data class LocalBook(
     val publishedDate: String,
     val pageCount: Int,
     val imageLink: String,
-    val readState: String, //TODO: think about how to best save state
+    val readingState: ReadingState = ReadingState.TO_READ,
+)
+
+data class UpdateBook(
+    val userId: Int,
+    val bookId: String,
+    val readingState: ReadingState
 )
 
 data class DeleteBook(

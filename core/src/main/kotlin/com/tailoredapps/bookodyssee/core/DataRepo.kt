@@ -20,6 +20,8 @@ package com.tailoredapps.bookodyssee.core
 import com.tailoredapps.bookodyssee.core.local.DatabaseImpl
 import com.tailoredapps.bookodyssee.core.local.DeleteBook
 import com.tailoredapps.bookodyssee.core.local.LocalBook
+import com.tailoredapps.bookodyssee.core.local.ReadingState
+import com.tailoredapps.bookodyssee.core.local.UpdateBook
 import com.tailoredapps.bookodyssee.core.model.BookItem
 import com.tailoredapps.bookodyssee.core.model.RemoteBookList
 import com.tailoredapps.bookodyssee.core.model.User
@@ -40,6 +42,7 @@ interface DataRepo {
     suspend fun getBook(bookId: String): LocalBook
     suspend fun checkBookAdded(userId: Int, bookId: String): Boolean
     suspend fun insertBook(book: LocalBook)
+    suspend fun updateBook(userId: Int, bookId: String, readingState: ReadingState)
     suspend fun deleteBook(userId: Int, bookId: String)
 }
 
@@ -85,6 +88,17 @@ class CoreDataRepo(
     override suspend fun insertBook(book: LocalBook) =
         withContext(Dispatchers.IO) {
             database.bookDao().insertBook(book)
+        }
+
+    override suspend fun updateBook(userId: Int, bookId: String, readingState: ReadingState) =
+        withContext(Dispatchers.IO) {
+            database.bookDao().updateReadingState(
+                UpdateBook(
+                    userId = userId,
+                    bookId = bookId,
+                    readingState = readingState
+                )
+            )
         }
 
     override suspend fun deleteBook(userId: Int, bookId: String) =
