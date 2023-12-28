@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.tailoredapps.bookodyssee.R
+import com.tailoredapps.bookodyssee.base.ui.bar.AppNavigationBar
 import com.tailoredapps.bookodyssee.base.ui.layout.BookItem
 import com.tailoredapps.bookodyssee.base.ui.scaffold.AppScaffold
 import com.tailoredapps.bookodyssee.base.ui.theme.AppTheme
@@ -76,7 +77,8 @@ private fun HomeView(
                     tint = AppTheme.colors.onPrimary
                 )
             }
-        }
+        },
+        bottomBar = { AppNavigationBar() },
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier

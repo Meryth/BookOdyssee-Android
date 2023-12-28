@@ -27,6 +27,7 @@ fun AppScaffold(
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
+    bottomBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
     AppScaffold(
@@ -41,6 +42,7 @@ fun AppScaffold(
             )
         },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        bottomBar = bottomBar,
         content = content
     )
 }
