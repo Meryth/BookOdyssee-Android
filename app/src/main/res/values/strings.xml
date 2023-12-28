@@ -24,4 +24,5 @@
     <string name="btn_finish">Finish</string>
     <string name="lb_currently_reading">Currently reading</string>
     <string name="lb_to_read">Want to read</string>
+    <string name="title_finished">Finished</string>
 </resources>

@@ -34,7 +34,8 @@ import org.koin.androidx.compose.getViewModel
 fun HomeScreen(
     viewModel: HomeViewModel = getViewModel(),
     onBookItemClick: (id: String) -> Unit,
-    onAddClick: () -> Unit
+    onAddClick: () -> Unit,
+    onFinishedClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -50,25 +51,25 @@ fun HomeScreen(
         }
     } else {
         HomeView(
-            title = stringResource(id = R.string.app_name),
             toReadList = state.toReadList,
             currentlyReadingList = state.currentlyReadingList,
-            onListElementClicked = onBookItemClick,
-            onAddClick = onAddClick
+            onBookItemClicked = onBookItemClick,
+            onAddClick = onAddClick,
+            onFinishedClick = onFinishedClick
         )
     }
 }
 
 @Composable
 private fun HomeView(
-    title: String,
     toReadList: List<LocalBook>,
     currentlyReadingList: List<LocalBook>,
-    onListElementClicked: (id: String) -> Unit,
+    onBookItemClicked: (id: String) -> Unit,
     onAddClick: () -> Unit,
+    onFinishedClick: () -> Unit
 ) {
     AppScaffold(
-        title = title,
+        title = stringResource(id = R.string.app_name),
         actions = {
             IconButton(onClick = onAddClick) {
                 Icon(
@@ -78,7 +79,9 @@ private fun HomeView(
                 )
             }
         },
-        bottomBar = { AppNavigationBar() },
+        bottomBar = {
+            AppNavigationBar(onFinishedClick = onFinishedClick)
+        },
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier
@@ -114,7 +117,7 @@ private fun HomeView(
                         horizontal = AppTheme.dimens.dimen24,
                         vertical = AppTheme.dimens.dimen6
                     ),
-                    onBookClick = { onListElementClicked(book.bookId) }
+                    onBookClick = { onBookItemClicked(book.bookId) }
                 )
                 Divider(
                     Modifier
@@ -151,7 +154,7 @@ private fun HomeView(
                         horizontal = AppTheme.dimens.dimen24,
                         vertical = AppTheme.dimens.dimen6
                     ),
-                    onBookClick = { onListElementClicked(book.bookId) }
+                    onBookClick = { onBookItemClicked(book.bookId) }
                 )
                 Divider(
                     Modifier
@@ -168,7 +171,6 @@ private fun HomeView(
 private fun HomePreview() {
     AppTheme {
         HomeView(
-            title = stringResource(id = R.string.app_name),
             toReadList = listOf(
                 LocalBook(
                     userId = 0,
@@ -194,8 +196,9 @@ private fun HomePreview() {
                     readingState = ReadingState.CURRENTLY_READING
                 )
             ),
-            onListElementClicked = {},
-            onAddClick = {}
+            onBookItemClicked = {},
+            onAddClick = {},
+            onFinishedClick = {}
         )
     }
 }

@@ -44,7 +44,6 @@ class HomeViewModel(
                 when (action) {
                     is Action.GetSavedBooks -> flow {
                         emit(Mutation.SetLoadingState(true))
-                        Timber.d("aaa getSavedBooks called")
                         runCatching {
                             dataRepo.getUserBookList(sharedPrefs.userId)
                         }.onSuccess { bookList ->

@@ -1,12 +1,12 @@
 package com.tailoredapps.bookodyssee.base.ui.bar
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoStories
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.outlined.AutoStories
 import androidx.compose.material.icons.outlined.Book
 import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -33,8 +33,8 @@ sealed class NavigationItem(
     )
 
     data object ToRead : NavigationItem(
-        outlinedIcon = Icons.Outlined.MenuBook,
-        filledIcon = Icons.Filled.MenuBook,
+        outlinedIcon = Icons.Outlined.AutoStories,
+        filledIcon = Icons.Filled.AutoStories,
         label = "To Read"
     )
 
