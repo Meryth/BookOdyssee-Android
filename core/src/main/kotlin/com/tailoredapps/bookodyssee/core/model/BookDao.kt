@@ -18,9 +18,6 @@ interface BookDao {
     @Delete(entity = LocalBook::class)
     suspend fun deleteBook(deleteBook: DeleteBook)
 
-    @Query("SELECT * FROM book WHERE bookId = :bookId")
-    fun getBook(bookId: String): LocalBook
-
     @Update(entity = LocalBook::class)
     fun updateReadingState(updateBook: UpdateBook)
 

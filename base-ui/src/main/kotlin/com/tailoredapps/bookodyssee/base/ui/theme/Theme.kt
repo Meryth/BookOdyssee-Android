@@ -1,6 +1,5 @@
 package com.tailoredapps.bookodyssee.base.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
@@ -96,14 +95,9 @@ private val LocalAppDimens = staticCompositionLocalOf {
 
 @Composable
 fun AppTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = if (darkTheme) {
-        DarkColorScheme
-    } else {
-        LightColorScheme
-    }
+    val colorScheme = LightColorScheme
 
     val configuration = LocalConfiguration.current
     val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions

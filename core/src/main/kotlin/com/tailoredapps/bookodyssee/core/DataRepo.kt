@@ -39,7 +39,7 @@ interface DataRepo {
     suspend fun getUser(username: String): User
     suspend fun insertUser(user: User)
     suspend fun updateUser(user: User)
-    suspend fun getBook(bookId: String): LocalBook
+    suspend fun getUserBookList(userId: Int): List<LocalBook>
     suspend fun getBookByUser(userId: Int, bookId: String): LocalBook?
     suspend fun insertBook(book: LocalBook)
     suspend fun updateBook(userId: Int, bookId: String, readingState: ReadingState)
@@ -75,9 +75,9 @@ class CoreDataRepo(
             database.userDao().updateUser(user)
         }
 
-    override suspend fun getBook(bookId: String): LocalBook =
+    override suspend fun getUserBookList(userId: Int): List<LocalBook> =
         withContext(Dispatchers.IO) {
-            database.bookDao().getBook(bookId)
+            database.userDao().getSavedBooks(userId)
         }
 
     override suspend fun getBookByUser(userId: Int, bookId: String): LocalBook? =

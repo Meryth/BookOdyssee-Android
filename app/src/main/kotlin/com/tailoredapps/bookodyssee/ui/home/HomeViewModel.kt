@@ -1,20 +1,3 @@
-/*
- * Copyright 2020 Tailored Media GmbH.
- * Created by Florian Schuster.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.tailoredapps.bookodyssee.ui.home
 
 import androidx.lifecycle.viewModelScope
@@ -22,18 +5,75 @@ import at.florianschuster.control.Controller
 import at.florianschuster.control.createController
 import com.tailoredapps.bookodyssee.base.control.ControllerViewModel
 import com.tailoredapps.bookodyssee.core.DataRepo
+import com.tailoredapps.bookodyssee.core.local.LocalBook
+import com.tailoredapps.bookodyssee.core.local.ReadingState
+import com.tailoredapps.bookodyssee.core.local.SharedPrefs
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.merge
+import timber.log.Timber
 
 class HomeViewModel(
-    private val dataRepo: DataRepo
+    private val dataRepo: DataRepo,
+    private val sharedPrefs: SharedPrefs
 ) : ControllerViewModel<HomeViewModel.Action, HomeViewModel.State>() {
 
-    sealed class Action
+    sealed class Action {
+        data object GetSavedBooks : Action()
+    }
 
-    sealed class Mutation
+    sealed class Mutation {
+        data class SetReadingList(
+            val toReadList: List<LocalBook>,
+            val currentlyReadingList: List<LocalBook>
+        ) : Mutation()
 
-    object State
+        data class SetLoadingState(val isLoading: Boolean) : Mutation()
+    }
 
-    override val controller: Controller<Action, State> = viewModelScope.createController<Action, Mutation, State>(
-        initialState = State
+    data class State(
+        val toReadList: List<LocalBook> = emptyList(),
+        val currentlyReadingList: List<LocalBook> = emptyList(),
+        val isLoading: Boolean = false
     )
+
+    override val controller: Controller<Action, State> =
+        viewModelScope.createController<Action, Mutation, State>(
+            initialState = State(),
+            mutator = { action ->
+                when (action) {
+                    is Action.GetSavedBooks -> flow {
+                        emit(Mutation.SetLoadingState(true))
+                        Timber.d("aaa getSavedBooks called")
+                        runCatching {
+                            dataRepo.getUserBookList(sharedPrefs.userId)
+                        }.onSuccess { bookList ->
+                            val toReadList =
+                                bookList.filter { it.readingState == ReadingState.TO_READ }
+                            val currentlyReadingList =
+                                bookList.filter { it.readingState == ReadingState.CURRENTLY_READING }
+
+                            emit(
+                                Mutation.SetReadingList(
+                                    toReadList = toReadList,
+                                    currentlyReadingList = currentlyReadingList
+                                )
+                            )
+                        }.onFailure {
+                            Timber.e("Error: Could not get saved books from user! $it")
+                        }
+                        emit(Mutation.SetLoadingState(false))
+                    }
+                }
+            },
+            reducer = { mutation, previousState ->
+                when (mutation) {
+                    is Mutation.SetLoadingState -> previousState.copy(isLoading = mutation.isLoading)
+                    is Mutation.SetReadingList -> previousState.copy(
+                        toReadList = mutation.toReadList,
+                        currentlyReadingList = mutation.currentlyReadingList
+                    )
+                }
+            }
+        )
 }

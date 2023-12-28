@@ -18,6 +18,6 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE username = :username")
     fun getUser(username: String): User
 
-    @Query("SELECT * FROM user JOIN book ON user.id = book.userId WHERE user.id = :userId")
-    fun getSavedBooks(userId: Int): Map<User, List<LocalBook>>
+    @Query("SELECT * FROM book WHERE book.userId = :userId")
+    fun getSavedBooks(userId: Int): List<LocalBook>
 }

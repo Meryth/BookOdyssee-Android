@@ -22,4 +22,6 @@
     <string name="btn_remove_from_list">Remove from reading list</string>
     <string name="btn_start_reading">Start reading</string>
     <string name="btn_finish">Finish</string>
+    <string name="lb_currently_reading">Currently reading</string>
+    <string name="lb_to_read">Want to read</string>
 </resources>
