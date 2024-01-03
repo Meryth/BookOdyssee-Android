@@ -67,15 +67,22 @@ fun NavHostController.MainNavHost() {
                 onRegisterClick = this@MainNavHost::navigateToRegistration
             )
             homeScreen(
+                navController = this@MainNavHost,
                 onBookItemClick = this@MainNavHost::navigateToBook,
                 onAddClick = this@MainNavHost::navigateToSearch,
+                onToReadClick = this@MainNavHost::navigateToHome,
                 onFinishedClick = this@MainNavHost::navigateToFinished
             )
             bookScreen()
             registrationScreen(onRegistrationSuccess = this@MainNavHost::navigateToLogin)
             loginScreen(onLoginSuccess = this@MainNavHost::navigateToHome)
             searchScreen(onBookClick = this@MainNavHost::navigateToBook)
-            finishedScreen(onBookItemClick = this@MainNavHost::navigateToBook)
+            finishedScreen(
+                navController = this@MainNavHost,
+                onBookItemClick = this@MainNavHost::navigateToBook,
+                onToReadClick = this@MainNavHost::navigateToHome,
+                onFinishedClick = this@MainNavHost::navigateToFinished
+            )
         }
     }
 }

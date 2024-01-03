@@ -8,14 +8,18 @@ import com.tailoredapps.bookodyssee.ui.home.HomeScreen
 internal const val ROUTE_HOME: String = "home"
 
 internal fun NavGraphBuilder.homeScreen(
+    navController: NavController,
     onBookItemClick: (String) -> Unit,
     onAddClick: () -> Unit,
+    onToReadClick: () -> Unit,
     onFinishedClick: () -> Unit
 ) {
     composable(ROUTE_HOME) {
         HomeScreen(
+            navController = navController,
             onBookItemClick = onBookItemClick,
             onAddClick = onAddClick,
+            onToReadClick = onToReadClick,
             onFinishedClick = onFinishedClick
         )
     }

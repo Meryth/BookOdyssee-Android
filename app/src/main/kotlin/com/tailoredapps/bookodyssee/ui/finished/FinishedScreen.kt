@@ -16,7 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.tailoredapps.bookodyssee.R
+import com.tailoredapps.bookodyssee.base.ui.bar.AppNavigationBar
 import com.tailoredapps.bookodyssee.base.ui.layout.BookItem
 import com.tailoredapps.bookodyssee.base.ui.scaffold.AppScaffold
 import com.tailoredapps.bookodyssee.base.ui.theme.AppTheme
@@ -26,8 +29,11 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun FinishedScreen(
+    navController: NavController,
     viewModel: FinishedViewModel = getViewModel(),
-    onBookItemClick: (String) -> Unit
+    onBookItemClick: (String) -> Unit,
+    onToReadClick: () -> Unit,
+    onFinishedClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -43,19 +49,32 @@ fun FinishedScreen(
         }
     } else {
         FinishedView(
+            navController = navController,
             bookList = state.finishedBookList,
-            onBookItemClick = onBookItemClick
+            onBookItemClick = onBookItemClick,
+            onToReadClick = onToReadClick,
+            onFinishedClick = onFinishedClick
         )
     }
 }
 
 @Composable
 fun FinishedView(
+    navController: NavController,
     bookList: List<LocalBook>,
-    onBookItemClick: (String) -> Unit
+    onBookItemClick: (String) -> Unit,
+    onToReadClick: () -> Unit,
+    onFinishedClick: () -> Unit
 ) {
     AppScaffold(
-        title = stringResource(R.string.title_finished)
+        title = stringResource(R.string.title_finished),
+        bottomBar = {
+            AppNavigationBar(
+                navController = navController,
+                onToReadClick = onToReadClick,
+                onFinishedClick = onFinishedClick
+            )
+        },
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier
@@ -89,6 +108,7 @@ fun FinishedView(
 @Composable
 private fun FinishedPreview() {
     FinishedView(
+        navController = rememberNavController(),
         bookList = listOf(
             LocalBook(
                 userId = 0,
@@ -102,6 +122,8 @@ private fun FinishedPreview() {
                 readingState = ReadingState.FINISHED
             )
         ),
-        onBookItemClick = {}
+        onBookItemClick = {},
+        onToReadClick = {},
+        onFinishedClick = {}
     )
 }

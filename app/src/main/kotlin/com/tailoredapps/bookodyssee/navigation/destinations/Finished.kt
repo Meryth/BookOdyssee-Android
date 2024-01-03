@@ -7,10 +7,18 @@ import com.tailoredapps.bookodyssee.ui.finished.FinishedScreen
 
 internal const val ROUTE_FINISHED: String = "finished"
 internal fun NavGraphBuilder.finishedScreen(
-    onBookItemClick: (String) -> Unit
+    navController: NavController,
+    onBookItemClick: (String) -> Unit,
+    onToReadClick: () -> Unit,
+    onFinishedClick: () -> Unit
 ) {
     composable(ROUTE_FINISHED) {
-        FinishedScreen(onBookItemClick = onBookItemClick)
+        FinishedScreen(
+            navController = navController,
+            onBookItemClick = onBookItemClick,
+            onToReadClick = onToReadClick,
+            onFinishedClick = onFinishedClick
+        )
     }
 }
 
