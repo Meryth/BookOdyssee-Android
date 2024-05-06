@@ -16,6 +16,8 @@ public object Libs {
 
     public const val activity_ktx: String = "androidx.activity:activity-ktx:_"
 
+    public const val benchmark_macro_junit4: String = "androidx.benchmark:benchmark-macro-junit4:_"
+
     public const val animation: String = "androidx.compose.animation:animation:_"
 
     public const val androidx_compose_compiler_compiler: String =
@@ -63,6 +65,8 @@ public object Libs {
 
     public const val navigation_ui_ktx: String = "androidx.navigation:navigation-ui-ktx:_"
 
+    public const val profileinstaller: String = "androidx.profileinstaller:profileinstaller:_"
+
     public const val room_compiler: String = "androidx.room:room-compiler:_"
 
     public const val room_ktx: String = "androidx.room:room-ktx"
@@ -76,6 +80,8 @@ public object Libs {
     public const val espresso_intents: String = "androidx.test.espresso:espresso-intents:_"
 
     public const val androidx_test_ext_junit: String = "androidx.test.ext:junit:_"
+
+    public const val uiautomator: String = "androidx.test.uiautomator:uiautomator:_"
 
     public const val androidx_test_core: String = "androidx.test:core:_"
 
@@ -94,6 +100,12 @@ public object Libs {
     public const val threetenabp: String = "com.jakewharton.threetenabp:threetenabp:_"
 
     public const val timber: String = "com.jakewharton.timber:timber:_"
+
+    public const val ktlint_reporter_baseline: String =
+            "com.pinterest.ktlint:ktlint-reporter-baseline:_"
+
+    public const val ktlint_ruleset_standard: String =
+            "com.pinterest.ktlint:ktlint-ruleset-standard:_"
 
     public const val ktlint: String = "com.pinterest:ktlint:_"
 

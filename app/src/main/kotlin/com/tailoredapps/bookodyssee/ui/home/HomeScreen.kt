@@ -82,7 +82,7 @@ private fun HomeView(
             IconButton(onClick = onAddClick) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = null,
+                    contentDescription = "btnAdd",
                     tint = AppTheme.colors.onPrimary
                 )
             }
